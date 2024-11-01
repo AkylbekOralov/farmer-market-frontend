@@ -63,7 +63,7 @@ const FarmerRegister = () => {
       alert("An error occurred during registration");
     }
   };
-
+  const [showCropOptions, setShowCropOptions] = useState(false);
   const cropOptions = [
     "Wheat",
     "Corn",
@@ -81,8 +81,24 @@ const FarmerRegister = () => {
     "Oranges",
     "Bananas",
   ];
+  const handleAddCrop = (crop) => {
+    // Add crop to selected cropTypes if not already added
+    if (!formData.cropTypes.includes(crop)) {
+      setFormData({ ...formData, cropTypes: [...formData.cropTypes, crop] });
+    }
+    setShowCropOptions(false); // Hide options after selection
+  };
+  
 
   return (
+    <>
+   
+
+<div className="container">
+  
+  
+
+   
     <form onSubmit={handleSubmit}>
       <input
         name="name"
@@ -121,8 +137,8 @@ const FarmerRegister = () => {
         value={formData.farmSize}
         onChange={handleChange}
       />
-      {/* Multiple selection for crop types */}
-      <div>
+
+      {/* <div>
         <label>Types of Crops:</label>
         {cropOptions.map((crop, index) => (
           <label key={index}>
@@ -135,8 +151,39 @@ const FarmerRegister = () => {
             />
             {crop}
           </label>
-        ))}
-      </div>
+        ))} */}
+         {/* <div className="crop-types-container"> */}
+         <label className="crop-label">Types of Crops</label>
+          <div className="crop-types-container">
+          <div className="crop-types-list">
+            {formData.cropTypes.map((crop, index) => (
+              <div key={index} className="crop-tag">
+                {crop}
+              </div>
+            ))}
+            <button
+              type="button"
+              className="add-crop-button"
+              onClick={() => setShowCropOptions(!showCropOptions)}
+            >
+              +
+            </button>
+          </div>
+          {showCropOptions && (
+            <div className="crop-options">
+              {cropOptions.map((crop, index) => (
+                <div
+                  key={index}
+                  className="crop-option"
+                  onClick={() => handleAddCrop(crop)}
+                >
+                  {crop}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      
       <input
         name="iin"
         placeholder="IIN"
@@ -145,23 +192,18 @@ const FarmerRegister = () => {
         onChange={handleChange}
       />
       <input
-        name="password"
-        type={showPassword ? "text" : "password"}
-        placeholder="Password"
-        required
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <label>
-        <input
-          type="checkbox"
-          checked={showPassword}
-          onChange={() => setShowPassword(!showPassword)}
-        />
-        Show Password
-      </label>
+  name="password"
+  type={showPassword ? "text" : "password"} // Toggles type based on showPassword
+  className="password-input"
+  placeholder="Password"
+  required
+  value={formData.password}
+  onChange={handleChange}
+/>
       <button type="submit">Register</button>
     </form>
+    </div>
+    </>
   );
 };
 
@@ -218,6 +260,7 @@ const BuyerRegister = () => {
   const paymentOptions = ["Credit Card", "PayPal", "Bank Transfer"];
 
   return (
+    <div className="container">
     <form onSubmit={handleSubmit}>
       <input
         name="name"
@@ -265,24 +308,20 @@ const BuyerRegister = () => {
           </label>
         ))}
       </div>
+      
       <input
-        name="password"
-        type={showPassword ? "text" : "password"}
-        placeholder="Password"
-        required
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <label>
-        <input
-          type="checkbox"
-          checked={showPassword}
-          onChange={() => setShowPassword(!showPassword)}
-        />
-        Show Password
-      </label>
+  name="password"
+  type={showPassword ? "text" : "password"} // Toggles type based on showPassword
+  className="password-input"
+  placeholder="Password"
+  required
+  value={formData.password}
+  onChange={handleChange}
+/>
+
       <button type="submit">Register</button>
     </form>
+    </div>
   );
 };
 
@@ -293,6 +332,14 @@ const Register = () => {
 
   return (
     <>
+       <div className="icon-wrapper">
+  <img 
+    src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png" 
+    alt="Farm Icon" 
+    className="farm-icon" 
+  />
+</div>
+<h1 className="title">FARMER MARKET</h1>
       <div className="options">
         <div
           className={buyerReg ? "btn active" : "btn"}
