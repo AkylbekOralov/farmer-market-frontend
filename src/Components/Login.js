@@ -1,6 +1,7 @@
 // Login.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../Styles/Login.css"; // Importing the Login.css for consistent styling
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Update form data when user types
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -19,6 +21,7 @@ const Login = () => {
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -40,10 +43,10 @@ const Login = () => {
         return;
       }
 
-      // Store token (optional)
+      // Store token (if needed)
       localStorage.setItem("token", data.token);
 
-      // Redirect based on role
+      // Redirect based on user role
       if (data.role === "buyer") {
         navigate("/buyer-main");
       } else if (data.role === "farmer") {
@@ -57,11 +60,20 @@ const Login = () => {
     }
   };
 
-  return (
-    <>
+  return (<>
+    <div className="icon-wrapper">
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png" 
+        alt="Farm Icon" 
+        className="farm-icon" 
+      />
+    </div>
+    <h1 className="title">FARMER MARKET</h1>
+    
+    <div className="container">
       <form onSubmit={handleSubmit}>
-        Login
         <input
+          className="input-field"
           name="nameOrPass"
           placeholder="Username / Email"
           type="email"
@@ -70,6 +82,7 @@ const Login = () => {
           onChange={handleChange}
         />
         <input
+          className="input-field"
           name="password"
           type={showPassword ? "text" : "password"}
           placeholder="Password"
@@ -77,22 +90,18 @@ const Login = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        <label>
-          <input
-            type="checkbox"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
-          />
-          Show Password
-        </label>
         <button type="submit">Login</button>
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      </form>
-      <div className="btn reg-btn" onClick={() => navigate("/register")}>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+
+        <div className="btn reg-btn" onClick={() => navigate("/register")}>
         Register
       </div>
-    </>
-  );
+      </form>
+
+    </div>
+  </>
+);
 };
 
 export default Login;
