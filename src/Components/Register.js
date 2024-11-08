@@ -65,26 +65,30 @@ const FarmerRegister = () => {
   };
   const [showCropOptions, setShowCropOptions] = useState(false);
   const cropOptions = [
-    "Wheat",
-    "Corn",
-    "Rice",
-    "Soybeans",
-    "Barley",
-    "Cotton",
-    "Sunflower",
-    "Sugarcane",
-    "Potatoes",
-    "Tomatoes",
-    "Onions",
-    "Apples",
-    "Grapes",
-    "Oranges",
-    "Bananas",
+    { name: "Wheat", icon: "🌾" },
+    { name: "Corn", icon: "🌽" },
+    { name: "Rice", icon: "🍚" },
+    { name: "Soybeans", icon: "🌱" },
+    { name: "Barley", icon: "🌾" },
+    { name: "Cotton", icon: "🧵" },
+    { name: "Sunflower", icon: "🌻" },
+    { name: "Sugarcane", icon: "🍬" },
+    { name: "Potatoes", icon: "🥔" },
+    { name: "Tomatoes", icon: "🍅" },
+    { name: "Onions", icon: "🧅" },
+    { name: "Apples", icon: "🍏" },
+    { name: "Grapes", icon: "🍇" },
+    { name: "Oranges", icon: "🍊" },
+    { name: "Bananas", icon: "🍌" }
   ];
+  
+  
   const handleAddCrop = (crop) => {
-    // Add crop to selected cropTypes if not already added
-    if (!formData.cropTypes.includes(crop)) {
-      setFormData({ ...formData, cropTypes: [...formData.cropTypes, crop] });
+    if (!formData.cropTypes.some((c) => c.name === crop.name)) {
+      setFormData({
+        ...formData,
+        cropTypes: [...formData.cropTypes, crop]
+      });
     }
     setShowCropOptions(false); // Hide options after selection
   };
@@ -137,23 +141,42 @@ const FarmerRegister = () => {
         value={formData.farmSize}
         onChange={handleChange}
       />
+<label className="crop-label">Types of Crops</label>
+<div className="crop-types-list">
+  {formData.cropTypes.map((crop, index) => (
+    <div key={index} className="crop-tag">
+      {crop.icon} {crop.name}
+    </div>
+  ))}
+  <button
+    type="button"
+    className="add-crop-button"
+    onClick={() => setShowCropOptions(!showCropOptions)}
+  >
+    +
+  </button>
+</div>
+{showCropOptions && (
+  <div className="crop-options">
+    {cropOptions.map((crop, index) => (
+      <div
+        key={index}
+        className="crop-option"
+        onClick={() => handleAddCrop(crop)}
+      >
+        {crop.icon} {crop.name}
+      </div>
+    ))}
+  </div>
+)}
 
-      {/* <div>
-        <label>Types of Crops:</label>
-        {cropOptions.map((crop, index) => (
-          <label key={index}>
-            <input
-              type="checkbox"
-              name="cropTypes"
-              value={crop}
-              checked={formData.cropTypes.includes(crop)}
-              onChange={handleChange}
-            />
-            {crop}
-          </label>
-        ))} */}
-         {/* <div className="crop-types-container"> */}
-         <label className="crop-label">Types of Crops</label>
+
+
+
+
+
+
+         {/* <label className="crop-label">Types of Crops</label>
           <div className="crop-types-container">
           <div className="crop-types-list">
             {formData.cropTypes.map((crop, index) => (
@@ -168,8 +191,8 @@ const FarmerRegister = () => {
             >
               +
             </button>
-          </div>
-          {showCropOptions && (
+          </div> */}
+          {/* {showCropOptions && (
             <div className="crop-options">
               {cropOptions.map((crop, index) => (
                 <div
@@ -182,7 +205,7 @@ const FarmerRegister = () => {
               ))}
             </div>
           )}
-        </div>
+        </div> */}
       
       <input
         name="iin"
@@ -211,11 +234,16 @@ const FarmerRegister = () => {
 const BuyerRegister = () => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    phone: "",
-    deliveryAddress: "",
-    paymentMethod: "",
-    password: "",
+  email: "",
+  phone: "",
+  deliveryAddress: "",
+  paymentMethod: "",
+  cardNumber: "",
+  securityCode: "",
+  expireMonth: "",
+  expireYear: "",
+  nameOnCard: "",
+  password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -293,7 +321,7 @@ const BuyerRegister = () => {
         onChange={handleChange}
       />
       <div>
-        <label>Payment Method:</label>
+        {/* <label>Payment Method:</label>
         {paymentOptions.map((method, index) => (
           <label key={index}>
             <input
@@ -306,7 +334,49 @@ const BuyerRegister = () => {
             />
             {method}
           </label>
-        ))}
+        ))} */}
+
+<div>
+  <label>Payment Information</label>
+  <input
+    name="cardNumber"
+    placeholder="Card Number"
+    required
+    value={formData.cardNumber}
+    onChange={handleChange}
+  />
+  <input
+    name="securityCode"
+    placeholder="Security Code"
+    required
+    value={formData.securityCode}
+    onChange={handleChange}
+  />
+  <div>
+    <input
+      name="expireMonth"
+      placeholder="Expire month"
+      required
+      value={formData.expireMonth}
+      onChange={handleChange}
+    />
+    <input
+      name="expireYear"
+      placeholder="Expire year"
+      required
+      value={formData.expireYear}
+      onChange={handleChange}
+    />
+  </div>
+  <input
+    name="nameOnCard"
+    placeholder="Name on Card"
+    required
+    value={formData.nameOnCard}
+    onChange={handleChange}
+  />
+</div>
+
       </div>
       
       <input
