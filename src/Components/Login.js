@@ -94,14 +94,26 @@ const Login = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
 
-        <div className="btn reg-btn" onClick={() => navigate("/register")}>
-        Register
-      </div>
-      </form>
+        <div
+            className="forgot-password"
+            onClick={() => navigate("/forgot-password")}
+          >
+            I forgot my password
+          </div>
 
-    </div>
-  </>
-);
+          <hr className="divider-line" />
+
+
+          <div
+            className="btn reg-btn"
+            onClick={() => navigate("/register")}
+          >
+            Don't you have an account? <span>Sign up</span>
+          </div>
+        </form>
+      </div>
+    </>
+  );
 };
 
 export default Login;
