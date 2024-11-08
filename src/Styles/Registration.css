@@ -75,7 +75,15 @@ input[type="email"],
 input[type="tel"],
 input[name="name"],
 input[name="iin"],
-input[type="password"]
+input[name="cardNumber"],
+input[name="securityCode"],
+input[name="expireMonth"],
+input[name="expireYear"],
+input[name="nameOnCard"],
+input[name="iin"],
+input[name="farmAddress"],
+input[name="farmSize"],
+input[type="password"] 
  {
   width: 100%;
   padding: 10px;
@@ -101,7 +109,15 @@ input[type="email"]:focus,
 input[type="tel"]:focus,
 input[name="name"]:focus,
 input[name="iin"]:focus,
- input[type="password"]:focus
+input[name="cardNumber"] :focus,
+input[name="securityCode"]:focus,
+input[name="expireMonth"]:focus,
+input[name="expireYear"] :focus,
+input[name="nameOnCard"] :focus,
+input[name="iin"] :focus,
+input[name="farmAddress"] :focus,
+input[name="farmSize"] :focus,
+input[type="password"]:focus
 { 
   border-color: #4CAF50; /* Adds a green border on focus */
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5); /* Subtle shadow effect */
@@ -149,12 +165,6 @@ button:hover {
   cursor: pointer;
   font-size: 14px;
 }
-.crop-types-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
 
 .crop-label {
   font-weight: 500;
@@ -186,11 +196,6 @@ button:hover {
 }
 
 
-.crop-tag::after {
-  content: "🌾"; 
-  margin-left: 5px;
-  font-size: 16px;
-}
 
 
 .add-crop-button {
