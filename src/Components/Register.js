@@ -321,22 +321,61 @@ const BuyerRegister = () => {
         onChange={handleChange}
       />
       <div>
-        {/* <label>Payment Method:</label>
-        {paymentOptions.map((method, index) => (
-          <label key={index}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value={method}
-              checked={formData.paymentMethod === method}
-              onChange={handleChange}
-              required
-            />
-            {method}
-          </label>
-        ))} */}
 
-<div>
+      <div className="payment-info-container">
+  <label className="label-section">Payment Information</label>
+  
+  <div className="card-security-container">
+    <input
+      name="cardNumber"
+      placeholder="Card Number"
+      required
+      value={formData.cardNumber}
+      onChange={handleChange}
+    />
+    <input
+      name="securityCode"
+      placeholder="Security Code"
+      required
+      value={formData.securityCode}
+      onChange={handleChange}
+    />
+  </div>
+  
+  <div className="expiration-date-container">
+    <input
+      name="expireMonth"
+      placeholder="Expire month"
+      required
+      value={formData.expireMonth}
+      onChange={handleChange}
+    />
+    <input
+      name="expireYear"
+      placeholder="Expire year"
+      required
+      value={formData.expireYear}
+      onChange={handleChange}
+    />
+  </div>
+  
+  <input
+    name="nameOnCard"
+    placeholder="Name on Card"
+    required
+    value={formData.nameOnCard}
+    onChange={handleChange}
+  />
+</div>
+
+
+
+
+
+
+
+
+{/* <div>
   <label>Payment Information</label>
   <input
     name="cardNumber"
@@ -375,7 +414,7 @@ const BuyerRegister = () => {
     value={formData.nameOnCard}
     onChange={handleChange}
   />
-</div>
+</div> */}
 
       </div>
       

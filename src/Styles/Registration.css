@@ -217,6 +217,59 @@ button:hover {
   background-color: #ddd;
   color: #555;
 }
+ /* Label styling for section headers like 'Payment Information' */
+.label-section {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-top: 20px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+/* Styling for input fields */
+.payment-info-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+  margin: 5px 0;
+}
+
+/* Side-by-side layout for Card Number and Security Code */
+.card-security-container {
+  display: flex;
+  gap: 10px; /* Space between the two inputs */
+}
+
+.card-security-container input {
+  flex: 1; /* Make both fields take equal width */
+}
+
+/* Side-by-side layout for Expire Month and Expire Year */
+.expiration-date-container {
+  display: flex;
+  gap: 10px; /* Space between the month and year fields */
+}
+
+.expiration-date-container input {
+  flex: 1; /* Make both fields take equal width */
+}
+
+/* Focus styling for all input fields */
+.payment-info-container input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Placeholder color for consistency */
+.payment-info-container input::placeholder {
+  color: #bbb;
+}
 
 
 
