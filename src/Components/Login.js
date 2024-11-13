@@ -60,60 +60,55 @@ const Login = () => {
     }
   };
 
-  return (<>
-    <div className="icon-wrapper">
+  return (<div className="container">
+    <div className="login-header">
       <img 
         src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png" 
         alt="Farm Icon" 
         className="farm-icon" 
       />
+      <h1 className="title">FARMER MARKET</h1>
     </div>
-    <h1 className="title">FARMER MARKET</h1>
-    
-    <div className="container">
-      <form onSubmit={handleSubmit}>
-        <input
-          className="input-field"
-          name="nameOrPass"
-          placeholder="Username / Email"
-          type="email"
-          required
-          value={formData.nameOrPass}
-          onChange={handleChange}
-        />
-        <input
-          className="input-field"
-          name="password"
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          required
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <button type="submit">Login</button>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+    <form onSubmit={handleSubmit}>
+      <input
+        className="input-field"
+        name="nameOrPass"
+        placeholder="Username / Email"
+        type="email"
+        required
+        value={formData.nameOrPass}
+        onChange={handleChange}
+      />
+      <input
+        className="input-field"
+        name="password"
+        type={showPassword ? "text" : "password"}
+        placeholder="Password"
+        required
+        value={formData.password}
+        onChange={handleChange}
+      />
+      <button type="submit">Login</button>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-
-        <div
-            className="forgot-password"
-            onClick={() => navigate("/forgot-password")}
-          >
-            I forgot my password
-          </div>
-
-          <hr className="divider-line" />
-
-
-          <div
-            className="btn reg-btn"
-            onClick={() => navigate("/register")}
-          >
-            Don't you have an account? <span>Sign up</span>
-          </div>
-        </form>
+      <div
+        className="forgot-password"
+        onClick={() => navigate("/forgot-password")}
+      >
+        I forgot my password
       </div>
-    </>
-  );
+
+      <hr className="divider-line" />
+
+      <div
+        className="btn reg-btn"
+        onClick={() => navigate("/register")}
+      >
+        Don't you have an account? <span>Sign up</span>
+      </div>
+    </form>
+  </div>
+);
 };
 
 export default Login;

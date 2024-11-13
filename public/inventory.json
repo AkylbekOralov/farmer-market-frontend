@@ -1,0 +1,38 @@
+[
+    {
+      "id": "#1234",
+      "name": "Inverter",
+      "category": "cat1",
+      "quantity": "80/100",
+      "inStock": true
+    },
+    {
+      "id": "#5678",
+      "name": "Battery",
+      "category": "cat2",
+      "quantity": "30/100",
+      "inStock": false
+    },
+    {
+      "id": "#9101",
+      "name": "Solar Panel",
+      "category": "cat3",
+      "quantity": "50/100",
+      "inStock": true
+    },
+    {
+      "id": "#1121",
+      "name": "Charge Controller",
+      "category": "cat4",
+      "quantity": "10/100",
+      "inStock": false
+    },
+    {
+      "id": "#3141",
+      "name": "Mounting Kit",
+      "category": "cat5",
+      "quantity": "95/100",
+      "inStock": true
+    }
+  ]
+  

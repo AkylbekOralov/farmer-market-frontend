@@ -1,0 +1,36 @@
+{
+    "best_selling_products": [
+      {
+        "name": "Ginger",
+        "image": "https://fruitboxco.com/cdn/shop/products/Ginger_800x.jpg?v=1588920651"
+      },
+      {
+        "name": "Tomato",
+        "image": "https://media.istockphoto.com/id/93041995/photo/tomato-w-clipping-path.jpg?s=612x612&w=0&k=20&c=YxS61cEClrQH_6z01jtYWZ54ENarwpTNSufGao_Wl1I="
+      },
+      {
+        "name": "Sweet Onion",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Onions.jpg/1024px-Onions.jpg"
+      }
+    ],
+    "income_this_week": [
+      { "day": "Monday", "income": 1500 },
+      { "day": "Tuesday", "income": 1800 },
+      { "day": "Wednesday", "income": 2200 },
+      { "day": "Thursday", "income": 2500 },
+      { "day": "Friday", "income": 2700 }
+    ],
+    "sales_data": [
+      {
+        "period": "October 30 - November 5",
+        "units_sold": 250,
+        "revenue": 12500
+      },
+      {
+        "period": "October 22 - October 29",
+        "units_sold": 240,
+        "revenue": 11700
+      }
+    ]
+  }
+  

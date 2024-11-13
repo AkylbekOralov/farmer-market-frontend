@@ -1,0 +1,19 @@
+{
+    "user": {
+      "profilePic": "https://via.placeholder.com/100",
+      "name": "John",
+      "surname": "Doe",
+      "email": "john.doe@example.com",
+      "about": "Short description about the user",
+      "phone": "+123456789"
+    },
+    "farm": {
+      "farmImage": "https://via.placeholder.com/100",
+      "size": "50 acres",
+      "area": "Green Valley",
+      "fields": 5,
+      "address": "123 Farm Road, Countryside",
+      "opened": "2005-04-01"
+    }
+  }
+  
