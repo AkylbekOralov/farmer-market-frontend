@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/Registration.css";
 
 // Farmer Registration Form
-const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  phone: "",
-  farm_address: "", // Updated to match back-end
-  farm_size: "", // Updated to match back-end
-  types_of_crops: [], // Updated to match back-end
-  iin: "",
-  password: "",
-});
+const FarmerRegister = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    farm_address: "",
+    farm_size: "",
+    types_of_crops: [],
+    iin: "",
+    password: "",
+  });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showCropOptions, setShowCropOptions] = useState(false);
@@ -35,63 +36,57 @@ const [formData, setFormData] = useState({
     { name: "Oranges", icon: "🍊" },
     { name: "Bananas", icon: "🍌" },
   ];
+  
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (name === "cropTypes") {
-      const updatedCropTypes = checked
-        ? [...formData.cropTypes, value]
-        : formData.cropTypes.filter((crop) => crop !== value);
-      setFormData({ ...formData, cropTypes: updatedCropTypes });
-    } else {
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleAddCrop = (crop) => {
+    if (!formData.types_of_crops.includes(crop.name)) {
       setFormData({
         ...formData,
-        [name]: type === "checkbox" ? checked : value,
+        types_of_crops: [...formData.types_of_crops, crop.name],
       });
     }
   };
 
-const handleAddCrop = (crop) => {
-  if (!formData.types_of_crops.some((c) => c.name === crop.name)) {
-    setFormData({
-      ...formData,
-      types_of_crops: [...formData.types_of_crops, crop.name], // Keep only the name
-    });
-  }
-};
-
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch("http://localhost:8383/farmer-register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData), // Send updated field names
-    });
-
-    if (response.ok) {
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        farm_address: "",
-        farm_size: "",
-        types_of_crops: [],
-        iin: "",
-        password: "",
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8383/farmer-register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-      alert("Registration successful!");
-    } else {
-      alert("Registration failed");
+
+      if (response.ok) {
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          farm_address: "",
+          farm_size: "",
+          types_of_crops: [],
+          iin: "",
+          password: "",
+        });
+        alert("Registration successful!");
+      } else {
+        alert("Registration failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred during registration");
     }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred during registration");
-  }
-};
+  };
 
   return (
     <div className="container">
@@ -120,27 +115,25 @@ const handleAddCrop = (crop) => {
           value={formData.phone}
           onChange={handleChange}
         />
-       <input
-  name="farm_address" // Updated name
-  placeholder="Farm Address"
-  required
-  value={formData.farm_address}
-  onChange={handleChange}
-/>
-<input
-  name="farm_size" // Updated name
-  placeholder="Farm Size (in acres)"
-  required
-  value={formData.farm_size}
-  onChange={handleChange}
-/>
-
-
+        <input
+          name="farm_address"
+          placeholder="Farm Address"
+          required
+          value={formData.farm_address}
+          onChange={handleChange}
+        />
+        <input
+          name="farm_size"
+          placeholder="Farm Size (in acres)"
+          required
+          value={formData.farm_size}
+          onChange={handleChange}
+        />
         <label className="crop-label">Types of Crops</label>
         <div className="crop-types-list">
-          {formData.cropTypes.map((crop, index) => (
+          {formData.types_of_crops.map((crop, index) => (
             <div key={index} className="crop-tag">
-              {crop.icon} {crop.name}
+              {crop}
             </div>
           ))}
           <button
@@ -164,7 +157,6 @@ const handleAddCrop = (crop) => {
             ))}
           </div>
         )}
-
         <input
           name="iin"
           placeholder="IIN"
@@ -172,26 +164,30 @@ const handleAddCrop = (crop) => {
           value={formData.iin}
           onChange={handleChange}
         />
-        <input
-          name="password"
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          required
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <label>
+        <div>
           <input
-            type="checkbox"
-            onChange={() => setShowPassword(!showPassword)}
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            required
+            value={formData.password}
+            onChange={handleChange}
           />
-          Show Password
-        </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            Show Password
+          </label>
+        </div>
         <button type="submit">Register</button>
       </form>
     </div>
   );
 };
+   
 
 // Buyer Registration Form
 const BuyerRegister = () => {
