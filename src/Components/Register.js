@@ -120,20 +120,21 @@ const handleAddCrop = (crop) => {
           value={formData.phone}
           onChange={handleChange}
         />
-        <input
-          name="farmAddress"
-          placeholder="Farm Address"
-          required
-          value={formData.farmAddress}
-          onChange={handleChange}
-        />
-        <input
-          name="farmSize"
-          placeholder="Farm Size (in acres)"
-          required
-          value={formData.farmSize}
-          onChange={handleChange}
-        />
+       <input
+  name="farm_address" // Updated name
+  placeholder="Farm Address"
+  required
+  value={formData.farm_address}
+  onChange={handleChange}
+/>
+<input
+  name="farm_size" // Updated name
+  placeholder="Farm Size (in acres)"
+  required
+  value={formData.farm_size}
+  onChange={handleChange}
+/>
+
 
         <label className="crop-label">Types of Crops</label>
         <div className="crop-types-list">
