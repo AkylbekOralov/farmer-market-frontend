@@ -4,17 +4,16 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/Registration.css";
 
 // Farmer Registration Form
-const FarmerRegister = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    farmAddress: "",
-    farmSize: "",
-    cropTypes: [], // Updated to an array to store multiple selections
-    iin: "",
-    password: "",
-  });
+const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  phone: "",
+  farm_address: "", // Updated to match back-end
+  farm_size: "", // Updated to match back-end
+  types_of_crops: [], // Updated to match back-end
+  iin: "",
+  password: "",
+});
 
   const [showPassword, setShowPassword] = useState(false);
   const [showCropOptions, setShowCropOptions] = useState(false);
@@ -53,58 +52,46 @@ const FarmerRegister = () => {
     }
   };
 
-  const handleAddCrop = (crop) => {
-    if (!formData.cropTypes.some((c) => c.name === crop.name)) {
+const handleAddCrop = (crop) => {
+  if (!formData.types_of_crops.some((c) => c.name === crop.name)) {
+    setFormData({
+      ...formData,
+      types_of_crops: [...formData.types_of_crops, crop.name], // Keep only the name
+    });
+  }
+};
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch("http://localhost:8383/farmer-register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData), // Send updated field names
+    });
+
+    if (response.ok) {
       setFormData({
-        ...formData,
-        cropTypes: [...formData.cropTypes, crop],
+        name: "",
+        email: "",
+        phone: "",
+        farm_address: "",
+        farm_size: "",
+        types_of_crops: [],
+        iin: "",
+        password: "",
       });
+      alert("Registration successful!");
+    } else {
+      alert("Registration failed");
     }
-    setShowCropOptions(false);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("http://localhost:8383/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          farmAddress: formData.farmAddress,
-          farmSize: formData.farmSize,
-          cropTypes: formData.cropTypes,
-          iin: formData.iin,
-          password: formData.password,
-        }),
-      });
-
-      if (response.ok) {
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          farmAddress: "",
-          farmSize: "",
-          cropTypes: [],
-          iin: "",
-          password: "",
-        });
-        alert("Registration successful! Please verify your email.");
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "Registration failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred during registration");
-    }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred during registration");
+  }
+};
 
   return (
     <div className="container">
