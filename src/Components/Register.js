@@ -17,53 +17,8 @@ const FarmerRegister = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    // Handle multiple selections for cropTypes
-    if (name === "cropTypes") {
-      const updatedCropTypes = checked
-        ? [...formData.cropTypes, value] // Add selected crop
-        : formData.cropTypes.filter((crop) => crop !== value); // Remove unselected crop
-      setFormData({ ...formData, cropTypes: updatedCropTypes });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: type === "checkbox" ? checked : value,
-      });
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:8383/farmer-register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          deliveryAddress: "",
-          paymentMethod: "",
-        }); // Clear form fields on success
-        alert("Registration successful!");
-      } else {
-        alert("Registration failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred during registration");
-    }
-  };
   const [showCropOptions, setShowCropOptions] = useState(false);
+
   const cropOptions = [
     { name: "Wheat", icon: "🌾" },
     { name: "Corn", icon: "🌽" },
@@ -79,154 +34,174 @@ const FarmerRegister = () => {
     { name: "Apples", icon: "🍏" },
     { name: "Grapes", icon: "🍇" },
     { name: "Oranges", icon: "🍊" },
-    { name: "Bananas", icon: "🍌" }
+    { name: "Bananas", icon: "🍌" },
   ];
-  
-  
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (name === "cropTypes") {
+      const updatedCropTypes = checked
+        ? [...formData.cropTypes, value]
+        : formData.cropTypes.filter((crop) => crop !== value);
+      setFormData({ ...formData, cropTypes: updatedCropTypes });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
+  };
+
   const handleAddCrop = (crop) => {
     if (!formData.cropTypes.some((c) => c.name === crop.name)) {
       setFormData({
         ...formData,
-        cropTypes: [...formData.cropTypes, crop]
+        cropTypes: [...formData.cropTypes, crop],
       });
     }
-    setShowCropOptions(false); // Hide options after selection
+    setShowCropOptions(false);
   };
-  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8383/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          farmAddress: formData.farmAddress,
+          farmSize: formData.farmSize,
+          cropTypes: formData.cropTypes,
+          iin: formData.iin,
+          password: formData.password,
+        }),
+      });
+
+      if (response.ok) {
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          farmAddress: "",
+          farmSize: "",
+          cropTypes: [],
+          iin: "",
+          password: "",
+        });
+        alert("Registration successful! Please verify your email.");
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || "Registration failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred during registration");
+    }
+  };
 
   return (
-    <>
-   
+    <div className="container">
+      <h1>Farmer Registration</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          name="name"
+          placeholder="Name"
+          required
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <input
+          name="email"
+          placeholder="Email"
+          type="email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <input
+          name="phone"
+          placeholder="Phone"
+          type="tel"
+          required
+          value={formData.phone}
+          onChange={handleChange}
+        />
+        <input
+          name="farmAddress"
+          placeholder="Farm Address"
+          required
+          value={formData.farmAddress}
+          onChange={handleChange}
+        />
+        <input
+          name="farmSize"
+          placeholder="Farm Size (in acres)"
+          required
+          value={formData.farmSize}
+          onChange={handleChange}
+        />
 
-<div className="container">
-  
-  
-
-   
-    <form onSubmit={handleSubmit}>
-      <input
-        name="name"
-        placeholder="Name"
-        required
-        value={formData.name}
-        onChange={handleChange}
-      />
-      <input
-        name="email"
-        placeholder="Email"
-        type="email"
-        required
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <input
-        name="phone"
-        placeholder="Phone"
-        type="tel"
-        required
-        value={formData.phone}
-        onChange={handleChange}
-      />
-      <input
-        name="farmAddress"
-        placeholder="Farm Address"
-        required
-        value={formData.farmAddress}
-        onChange={handleChange}
-      />
-      <input
-        name="farmSize"
-        placeholder="Farm Size (in acres)"
-        required
-        value={formData.farmSize}
-        onChange={handleChange}
-      />
-<label className="crop-label">Types of Crops</label>
-<div className="crop-types-list">
-  {formData.cropTypes.map((crop, index) => (
-    <div key={index} className="crop-tag">
-      {crop.icon} {crop.name}
-    </div>
-  ))}
-  <button
-    type="button"
-    className="add-crop-button"
-    onClick={() => setShowCropOptions(!showCropOptions)}
-  >
-    +
-  </button>
-</div>
-{showCropOptions && (
-  <div className="crop-options">
-    {cropOptions.map((crop, index) => (
-      <div
-        key={index}
-        className="crop-option"
-        onClick={() => handleAddCrop(crop)}
-      >
-        {crop.icon} {crop.name}
-      </div>
-    ))}
-  </div>
-)}
-
-
-
-
-
-
-
-         {/* <label className="crop-label">Types of Crops</label>
-          <div className="crop-types-container">
-          <div className="crop-types-list">
-            {formData.cropTypes.map((crop, index) => (
-              <div key={index} className="crop-tag">
-                {crop}
+        <label className="crop-label">Types of Crops</label>
+        <div className="crop-types-list">
+          {formData.cropTypes.map((crop, index) => (
+            <div key={index} className="crop-tag">
+              {crop.icon} {crop.name}
+            </div>
+          ))}
+          <button
+            type="button"
+            className="add-crop-button"
+            onClick={() => setShowCropOptions(!showCropOptions)}
+          >
+            +
+          </button>
+        </div>
+        {showCropOptions && (
+          <div className="crop-options">
+            {cropOptions.map((crop, index) => (
+              <div
+                key={index}
+                className="crop-option"
+                onClick={() => handleAddCrop(crop)}
+              >
+                {crop.icon} {crop.name}
               </div>
             ))}
-            <button
-              type="button"
-              className="add-crop-button"
-              onClick={() => setShowCropOptions(!showCropOptions)}
-            >
-              +
-            </button>
-          </div> */}
-          {/* {showCropOptions && (
-            <div className="crop-options">
-              {cropOptions.map((crop, index) => (
-                <div
-                  key={index}
-                  className="crop-option"
-                  onClick={() => handleAddCrop(crop)}
-                >
-                  {crop}
-                </div>
-              ))}
-            </div>
-          )}
-        </div> */}
-      
-      <input
-        name="iin"
-        placeholder="IIN"
-        required
-        value={formData.iin}
-        onChange={handleChange}
-      />
-      <input
-  name="password"
-  type={showPassword ? "text" : "password"} // Toggles type based on showPassword
-  className="password-input"
-  placeholder="Password"
-  required
-  value={formData.password}
-  onChange={handleChange}
-/>
-      <button type="submit">Register</button>
-    </form>
+          </div>
+        )}
+
+        <input
+          name="iin"
+          placeholder="IIN"
+          required
+          value={formData.iin}
+          onChange={handleChange}
+        />
+        <input
+          name="password"
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <label>
+          <input
+            type="checkbox"
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          Show Password
+        </label>
+        <button type="submit">Register</button>
+      </form>
     </div>
-    </>
   );
 };
 
