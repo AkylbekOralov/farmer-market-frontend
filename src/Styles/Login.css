@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  flex-direction: column;
 }
 .icon-wrapper img {
   width: 100px;
@@ -17,7 +16,7 @@
 }
 
 .farm-icon {
-  width: 800px;
+  width: 80px;
   margin-bottom: 10px;
 }
 
@@ -41,7 +40,7 @@ form {
 }
 
 /* Input styling */
-input[name="nameOrPass"],
+input[name="email"],
 input[type="password"] {
   width: 100%;
   padding: 10px;
@@ -126,3 +125,4 @@ button:hover {
   margin: 0; /* Space around the line */
   width: 100%; /* Full width */
 }
+
