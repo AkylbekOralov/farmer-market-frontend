@@ -1,0 +1,125 @@
+.add-inventory-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.add-inventory-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
+}
+
+.dashboard-nav {
+  display: flex;
+  gap: 15px;
+}
+
+.account-button,
+.logout-button {
+  background-color: #f5f5f5;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: black;
+}
+
+.add-inventory-main {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+}
+
+.inventory-form {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.image-upload {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-placeholder {
+  width: 150px;
+  height: 150px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.image-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-preview {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.form-fields {
+  flex: 2;
+  display: grid;
+  gap: 10px;
+}
+
+.form-fields label {
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-fields input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.save-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+
+.dashboard-footer {
+  margin-top: 20px;
+}
+
+.chat-button {
+  background-color: #f5f5f5;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
