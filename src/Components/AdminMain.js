@@ -1,3 +1,4 @@
+// Components/AdminMain.js
 const AdminMain = () => {
   return <>Admin Main</>;
 };

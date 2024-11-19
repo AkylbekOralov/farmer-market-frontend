@@ -1,35 +1,48 @@
+// App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import { AuthProvider } from "./context/AuthContext";
 import Login from "./Components/Login";
-import Register from "./Components/Register";
-import BuyerMain from "./Components/BuyerMain";
+import BuyerMain from "./Components/Buyer/BuyerMain";
 import FarmerMain from "./Components/FarmerMain";
 import AdminMain from "./Components/AdminMain";
-import Account from "./Components/Account";
-import ProdList from "./Components/prodlist"; 
-import AddProduct from "./Components/AddProduct";
-import Report from "./Components/Report";
-import Inventory from "./Components/Inv"; 
-import Order from "./Components/Order";
-function App() {
+import ProtectedRoute from "./Components/ProtectedRoute";
+
+const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/buyer-main" element={<BuyerMain />} />
-        <Route path="/farmer-main" element={<FarmerMain />} />
-        <Route path="/admin-main" element={<AdminMain />} />
-        <Route path="/account" element={<Account />} /> 
-        <Route path="/prodlist" element={<ProdList />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/report" element={<Report />} />  
-        <Route path="/inventory" element={<Inventory />} /> 
-        <Route path="/order" element={<Order />} /> 
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/buyer-main"
+            element={
+              <ProtectedRoute role="buyer">
+                <BuyerMain />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/farmer-main"
+            element={
+              <ProtectedRoute role="farmer">
+                <FarmerMain />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-main"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminMain />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/403" element={<h1>403 - Forbidden</h1>} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

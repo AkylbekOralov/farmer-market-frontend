@@ -1,18 +1,19 @@
-// Login.js
-import { useState } from "react";
+// Components/Login.js
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Login.css"; // Importing the Login.css for consistent styling
+import AuthContext from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Using AuthContext to manage authentication state
   const [formData, setFormData] = useState({
-    nameOrPass: "",
+    email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Update form data when user types
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -24,91 +25,73 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setLoading(true);
+
     try {
-      const response = await fetch("http://localhost:8383/login", {
+      // Send login request to the backend
+      const response = await fetch("http://localhost:8383/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: formData.nameOrPass,
-          password: formData.password,
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
         setErrorMessage(data.message || "Login failed");
+        setLoading(false);
         return;
       }
 
-      // Store token (if needed)
-      localStorage.setItem("token", data.token);
+      // Save token and role in context and localStorage
+      login(data.token, data.role);
 
-      // Redirect based on user role
+      // Redirect user based on their role
       if (data.role === "buyer") {
         navigate("/buyer-main");
       } else if (data.role === "farmer") {
         navigate("/farmer-main");
-      } else if (data.role === "administrator") {
+      } else if (data.role === "admin") {
         navigate("/admin-main");
       }
     } catch (error) {
       console.error("Error during login:", error);
       setErrorMessage("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (<div className="container">
-    <div className="login-header">
-      <img 
-        src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png" 
-        alt="Farm Icon" 
-        className="farm-icon" 
-      />
-      <h1 className="title">FARMER MARKET</h1>
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          name="email"
+          type="text"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
+        {errorMessage && <p>{errorMessage}</p>}
+      </form>
     </div>
-    <form onSubmit={handleSubmit}>
-      <input
-        className="input-field"
-        name="nameOrPass"
-        placeholder="Username / Email"
-        type="email"
-        required
-        value={formData.nameOrPass}
-        onChange={handleChange}
-      />
-      <input
-        className="input-field"
-        name="password"
-        type={showPassword ? "text" : "password"}
-        placeholder="Password"
-        required
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <button type="submit">Login</button>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-      <div
-        className="forgot-password"
-        onClick={() => navigate("/forgot-password")}
-      >
-        I forgot my password
-      </div>
-
-      <hr className="divider-line" />
-
-      <div
-        className="btn reg-btn"
-        onClick={() => navigate("/register")}
-      >
-        Don't you have an account? <span>Sign up</span>
-      </div>
-    </form>
-  </div>
-);
+  );
 };
 
 export default Login;
