@@ -1,6 +1,6 @@
-// Components/prodlist.js
+// Components/Farmer/prodlist.js
 import React, { useState, useEffect } from "react";
-import "../Styles/ProdList.css"; // Create CSS file similar to style in your image
+import "../../Styles/ProdList.css"; // Create CSS file similar to style in your image
 import { useNavigate } from "react-router-dom";
 const ProdList = () => {
   const navigate = useNavigate();

@@ -1,19 +1,17 @@
-// Components/Login.js
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // Using AuthContext to manage authentication state
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -22,44 +20,32 @@ const Login = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
+    setError("");
     setLoading(true);
 
     try {
-      // Send login request to the backend
       const response = await fetch("http://localhost:8383/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        setErrorMessage(data.message || "Login failed");
-        setLoading(false);
-        return;
+      if (response.ok) {
+        login(data.token, data.role); // Save token and role in AuthContext
+        if (data.role === "farmer") {
+          navigate("/farmer-main");
+        } else {
+          setError("Unauthorized role for this application.");
+        }
+      } else {
+        setError(data.message || "Login failed.");
       }
-
-      // Save token and role in context and localStorage
-      login(data.token, data.role);
-
-      // Redirect user based on their role
-      if (data.role === "buyer") {
-        navigate("/buyer-main");
-      } else if (data.role === "farmer") {
-        navigate("/farmer-main");
-      } else if (data.role === "admin") {
-        navigate("/admin-main");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setErrorMessage("Login failed. Please try again.");
+    } catch (err) {
+      setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -70,16 +56,16 @@ const Login = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
+          type="email"
           name="email"
-          type="text"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
           required
         />
         <input
-          name="password"
           type="password"
+          name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
@@ -88,10 +74,7 @@ const Login = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-        {errorMessage && <p>{errorMessage}</p>}
-        <div className="btn reg-btn" onClick={() => navigate("/register")}>
-          Don't you have an account? <span>Sign up</span>
-        </div>
+        {error && <p>{error}</p>}
       </form>
     </div>
   );

@@ -1,5 +1,6 @@
 /* Centering container on full page */
-html, body {
+html,
+body {
   background-color: #f5f5f5;
   height: 100%;
   margin: 0;
@@ -49,7 +50,6 @@ form {
   margin-top: 50px;
   font-size: 16px;
   font-weight: 500;
-  
 }
 
 /* Button styling within options */
@@ -83,18 +83,16 @@ input[name="nameOnCard"],
 input[name="iin"],
 input[name="farmAddress"],
 input[name="farmSize"],
-input[type="password"] 
- {
+input[type="password"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc; /* Consistent border color and style */
-  border-radius: 8px; 
+  border-radius: 8px;
   font-size: 16px;
   box-sizing: border-box;
   outline: none; /* Removes default browser outline */
   margin: 5px 0; /* Adds spacing for uniform appearance */
 }
-
 
 /* Placeholder color for consistency */
 input::placeholder {
@@ -117,9 +115,8 @@ input[name="nameOnCard"] :focus,
 input[name="iin"] :focus,
 input[name="farmAddress"] :focus,
 input[name="farmSize"] :focus,
-input[type="password"]:focus
-{ 
-  border-color: #4CAF50; /* Adds a green border on focus */
+input[type="password"]:focus {
+  border-color: #4caf50; /* Adds a green border on focus */
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5); /* Subtle shadow effect */
 }
 /* General styling for password field */
@@ -136,13 +133,12 @@ input[type="password"]:focus
 
 /* Focus styling for consistency */
 .password-input:focus {
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
 }
 
-
 button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 10px 0;
   width: 80%;
@@ -181,10 +177,9 @@ button:hover {
   flex-wrap: wrap;
 }
 
-
 .crop-tag {
-  background-color: #ffebcc; 
-  color: #000; 
+  background-color: #ffebcc;
+  color: #000;
   padding: 6px 12px;
   border-radius: 20px;
   display: flex;
@@ -194,9 +189,6 @@ button:hover {
   gap: 5px;
   position: relative;
 }
-
-
-
 
 .add-crop-button {
   background-color: transparent;
@@ -217,7 +209,7 @@ button:hover {
   background-color: #ddd;
   color: #555;
 }
- /* Label styling for section headers like 'Payment Information' */
+/* Label styling for section headers like 'Payment Information' */
 .label-section {
   width: 100%;
   font-size: 16px;
@@ -262,7 +254,7 @@ button:hover {
 
 /* Focus styling for all input fields */
 .payment-info-container input:focus {
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
 }
 
@@ -270,6 +262,3 @@ button:hover {
 .payment-info-container input::placeholder {
   color: #bbb;
 }
-
-
-

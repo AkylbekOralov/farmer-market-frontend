@@ -1,4 +1,4 @@
-// Components/Account.js
+// Components/Farmer/Account.js
 import React, { useEffect, useState } from "react";
 import "../Styles/Account.css";
 import { useNavigate } from "react-router-dom";

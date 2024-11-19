@@ -1,22 +1,34 @@
-// Components/AddProduct.js
-import React from 'react';
-import '../Styles/AddProduct.css'; // Adjust the path as needed
+// Components/Farmer/AddProduct.js
+import React from "react";
+import "../Styles/AddProduct.css"; // Adjust the path as needed
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const AddProduct = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="add-product-container">
       {/* Header Section */}
       <div className="header">
-        <img src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png" alt="Farm Icon" className="main-logo" />
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
+          alt="Farm Icon"
+          className="main-logo"
+        />
         <div className="right-section">
-          <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Mail Icon" className="mail-icon" />
-          <button className="account-button" onClick={() => navigate('/account')}>My account</button> 
-          <button className="logout-button" onClick={() => navigate('/')}>Log out</button>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+            alt="Mail Icon"
+            className="mail-icon"
+          />
+          <button
+            className="account-button"
+            onClick={() => navigate("/account")}
+          >
+            My account
+          </button>
+          <button className="logout-button" onClick={() => navigate("/")}>
+            Log out
+          </button>
         </div>
       </div>
 

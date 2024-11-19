@@ -1,4 +1,4 @@
-// Components/AdminMain.js
+// Components/Admin/AdminMain.js
 const AdminMain = () => {
   return <>Admin Main</>;
 };
