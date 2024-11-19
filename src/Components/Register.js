@@ -37,7 +37,7 @@ const FarmerRegister = () => {
           setErrors("Failed to fetch crop options");
         }
       } catch (error) {
-        setErrors("An error occurred while fetching crop options.");
+        setErrors("An error occurred while fetching crop options");
       }
     };
 
