@@ -89,6 +89,9 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
         {errorMessage && <p>{errorMessage}</p>}
+        <div className="btn reg-btn" onClick={() => navigate("/register")}>
+          Don't you have an account? <span>Sign up</span>
+        </div>
       </form>
     </div>
   );

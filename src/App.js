@@ -2,6 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import Register from "./Components/Register";
 import Login from "./Components/Login";
 import BuyerMain from "./Components/Buyer/BuyerMain";
 import FarmerMain from "./Components/FarmerMain";
@@ -14,6 +15,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route
             path="/buyer-main"
             element={
