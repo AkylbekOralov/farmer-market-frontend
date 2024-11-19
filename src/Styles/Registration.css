@@ -68,30 +68,47 @@ form {
 /* Uniform styling for all text-based input fields */
 /* General input styling for uniform appearance across all fields */
 /* General styling for text-based input fields */
-input[name="farmAddress"],
-input[name="deliveryAddress"],
-input[name="farmSize"],
+input[name="delivery_address"],
+
+input[name="farm_size"],
+
 input[type="email"],
 input[type="tel"],
-input[name="name"],
+input[name="username"],
 input[name="iin"],
-input[name="cardNumber"],
+input[name="card_number"],
 input[name="securityCode"],
 input[name="expireMonth"],
-input[name="expireYear"],
-input[name="nameOnCard"],
-input[name="iin"],
-input[name="farmAddress"],
-input[name="farmSize"],
-input[type="password"] {
+input[name="expire_date"],
+input[name="owner_name"],
+input[name="cvc"],
+input[name="farm_address"],
+input[type="password"] 
+ {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc; /* Consistent border color and style */
-  border-radius: 8px;
+  border-radius: 8px; 
   font-size: 16px;
   box-sizing: border-box;
   outline: none; /* Removes default browser outline */
   margin: 5px 0; /* Adds spacing for uniform appearance */
+}
+.password-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+  margin: 5px 0;
+}
+
+/* Focus styling for consistency */
+.password-input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
 }
 
 /* Placeholder color for consistency */
@@ -100,25 +117,29 @@ input::placeholder {
 }
 
 /* Focus styling for text-based input fields */
-input[name="farmSize"]:focus,
-input[name="farmAddress"]:focus,
-input[name="deliveryAddress"]:focus,
+input[name="farm_size"]:focus,
+input[name="farm_address"]:focus,
+input[name="delivery_address"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
-input[name="name"]:focus,
+input[name="username"]:focus,
 input[name="iin"]:focus,
-input[name="cardNumber"] :focus,
+input[name="card_number"] :focus,
 input[name="securityCode"]:focus,
 input[name="expireMonth"]:focus,
 input[name="expireYear"] :focus,
-input[name="nameOnCard"] :focus,
-input[name="iin"] :focus,
+input[name="owner_name"] :focus,
+input[name="cvc"] :focus,
 input[name="farmAddress"] :focus,
 input[name="farmSize"] :focus,
-input[type="password"]:focus {
-  border-color: #4caf50; /* Adds a green border on focus */
+input[name="password"]:focus
+{ 
+  border-color: #4CAF50; /* Adds a green border on focus */
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5); /* Subtle shadow effect */
 }
+/* General styling for password field */
+
+
 /* General styling for password field */
 .password-input {
   width: 100%;
