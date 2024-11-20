@@ -49,79 +49,121 @@
     background-color: #45a049;
 }
 
+/* General Container Styling */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  gap: 20px;
+  
+}
+
+
+
+/* Account Container Styling */
 .account-container {
-    display: flex;
-    flex-direction: row;
-    padding: 200px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    max-width: 1200px;
-   
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  gap: 20px;
+}
+
+.user-info, .farm-info {
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 120px; 
   
   
-  .user-info, .farm-info {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    margin: 10px;
-  }
+}
+
+/* Profile Section */
+.user-info h2, .farm-info h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.profile-pic-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   
-  .user-info {
-    width: 400px;
-  }
-  
-  .farm-info {
-    width: 600px;
-  }
-  
-  .profile-pic-section, .farm-image-section {
-    display: flex;
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+}
+
+.user-details label, .farm-details label {
+  display: block;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-details input, .farm-details input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Crop Types */
+.crop-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.crop-type {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.update-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.update-button:hover {
+  background-color: #218838;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .account-container {
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
   }
-  
-  .profile-pic, .farm-image {
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
-  .change-photo {
-    margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    background-color: #007b00;
-    color: white;
-    border-radius: 5px;
-  }
-  
-  .user-details label {
-    font-size: 14px;
-    color: #555;
-    margin-top: 10px;
-  }
-  
-  .user-details label1 {
+
+  .user-info, .farm-info {
     width: 100%;
-    padding: 8px;
-    margin-top: 100px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
   }
-  
-  .farm-details {
-    margin-top: 20px;
-  }
-  
-  .farm-details p {
-    margin: 5px 0;
-  }
+}
+
   
