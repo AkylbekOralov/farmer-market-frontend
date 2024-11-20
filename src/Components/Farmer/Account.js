@@ -8,8 +8,8 @@ const Account = () => {
   const [userData, setUserData] = useState({});
   const [farmData, setFarmData] = useState({});
   const [profilePicture, setProfilePicture] = useState(null);
-  const [cropTypes, setCropTypes] = useState([]); // Store available crop types
-  const [selectedCrops, setSelectedCrops] = useState([]); // Track selected crops
+  const [cropTypes, setCropTypes] = useState([]); // Store available crop types as names
+  const [selectedCrops, setSelectedCrops] = useState([]); // Track selected crop names
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +27,6 @@ const Account = () => {
           username: profileResponse.data.username,
           email: profileResponse.data.email,
           phone: profileResponse.data.phone,
-          cropTypes: profileResponse.data.crops,
         });
 
         setFarmData({
@@ -35,7 +34,8 @@ const Account = () => {
           farmSize: profileResponse.data.farmSize,
         });
 
-        setSelectedCrops(profileResponse.data.crops || []); // Pre-select crops from the profile
+        // Pre-select crops from the profile
+        setSelectedCrops(profileResponse.data.crops || []);
         setProfilePicture(profileResponse.data.profilePicture);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -52,7 +52,7 @@ const Account = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        setCropTypes(cropResponse.data.categories);
+        setCropTypes(cropResponse.data.categories.map((crop) => crop.name)); // Use names
       } catch (error) {
         console.error("Error fetching crop types:", error);
       }
@@ -86,14 +86,14 @@ const Account = () => {
     }
   };
 
-  const handleCropSelection = (cropId) => {
-    if (selectedCrops.includes(cropId)) {
-      // Remove crop if already selected
-      setSelectedCrops(selectedCrops.filter((id) => id !== cropId));
-    } else {
-      // Add crop if not selected
-      setSelectedCrops([...selectedCrops, cropId]);
-    }
+  const handleCropSelection = (cropName) => {
+    // Toggle crop selection by name
+    setSelectedCrops(
+      (prevCrops) =>
+        prevCrops.includes(cropName)
+          ? prevCrops.filter((name) => name !== cropName) // Remove if already selected
+          : [...prevCrops, cropName] // Add if not selected
+    );
   };
 
   const handleProfileUpdate = async () => {
@@ -106,7 +106,7 @@ const Account = () => {
           phone: userData.phone,
           farmAddress: farmData.farmAddress,
           farmSize: farmData.farmSize,
-          crops: selectedCrops, // Send selected crop IDs
+          crops: selectedCrops, // Send updated crop names
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -145,8 +145,9 @@ const Account = () => {
           <div className="profile-pic-section">
             <img
               src={
-                `http://localhost:8383/${profilePicture}` ||
-                "https://via.placeholder.com/100"
+                profilePicture
+                  ? `http://localhost:8383/${profilePicture}`
+                  : "https://via.placeholder.com/100"
               }
               alt="Profile"
               className="profile-pic"
@@ -204,15 +205,15 @@ const Account = () => {
             </label>
             <label>Crops:</label>
             <div className="crop-types">
-              {cropTypes.map((crop) => (
-                <div key={crop.id} className="crop-type">
+              {cropTypes.map((cropName) => (
+                <div key={cropName} className="crop-type">
                   <label>
                     <input
                       type="checkbox"
-                      checked={selectedCrops.includes(crop.id)} // Pre-select crops
-                      onChange={() => handleCropSelection(crop.id)}
+                      checked={selectedCrops.includes(cropName)} // Pre-select crops
+                      onChange={() => handleCropSelection(cropName)}
                     />
-                    {crop.name}
+                    {cropName}
                   </label>
                 </div>
               ))}
