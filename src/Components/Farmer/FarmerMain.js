@@ -25,7 +25,7 @@ const FarmerMain = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setFarmerName(data.name || "Farmer"); // Set farmer's name
+          setFarmerName(data.username || "Farmer"); // Set farmer's name
         } else {
           console.error("Failed to fetch farmer data");
         }

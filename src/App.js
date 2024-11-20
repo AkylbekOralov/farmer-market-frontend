@@ -14,6 +14,7 @@ import Report from "./Components/Farmer/Report";
 import Inventory from "./Components/Farmer/Inv";
 import Order from "./Components/Farmer/Order";
 import Account from "./Components/Farmer/Account";
+import AddProduct from "./Components/Farmer/AddProduct";
 
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
@@ -91,6 +92,14 @@ const App = () => {
           element={
             <ProtectedRoute role="farmer">
               <Account />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add-product"
+          element={
+            <ProtectedRoute role="farmer">
+              <AddProduct />
             </ProtectedRoute>
           }
         />

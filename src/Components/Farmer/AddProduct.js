@@ -1,13 +1,80 @@
 // Components/Farmer/AddProduct.js
-import React from "react";
-import "../Styles/AddProduct.css"; // Adjust the path as needed
+import React, { useState, useEffect } from "react";
+import "../../Styles/AddProduct.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AddProduct = () => {
+  const [categories, setCategories] = useState([]); // Categories fetched from the backend
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    price: "",
+    quantity: "",
+    unit_of_measure: "kg",
+    productImages: [],
+  });
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:8383/api/farmer/crop-types",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, productImages: Array.from(e.target.files) });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("description", formData.description);
+    data.append("category", formData.category);
+    data.append("price", formData.price);
+    data.append("quantity", formData.quantity);
+    data.append("unit_of_measure", formData.unit_of_measure);
+
+    // Append each file to the FormData
+    formData.productImages.forEach((file) =>
+      data.append("productImages", file)
+    );
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post("http://localhost:8383/api/farmer/product", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Product added successfully!");
+      navigate("/prodlist"); // Redirect to product list
+    } catch (error) {
+      console.error("Error adding product:", error);
+      alert("Failed to add product");
+    }
+  };
+
   return (
     <div className="add-product-container">
-      {/* Header Section */}
       <div className="header">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
@@ -15,11 +82,6 @@ const AddProduct = () => {
           className="main-logo"
         />
         <div className="right-section">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
-            alt="Mail Icon"
-            className="mail-icon"
-          />
           <button
             className="account-button"
             onClick={() => navigate("/account")}
@@ -32,28 +94,77 @@ const AddProduct = () => {
         </div>
       </div>
 
-      {/* Main content */}
       <h1>Add New Product</h1>
-      <div className="product-form">
-        <div className="image-upload">
-          <div className="image-placeholder">Add photo</div>
-        </div>
+      <form className="product-form" onSubmit={handleSubmit}>
         <div className="form-fields">
-          <label>Product name</label>
-          <input type="text" />
+          <label>Product Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+
           <label>Description</label>
-          <input type="text" />
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+
           <label>Category</label>
-          <input type="text" />
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
           <label>Price</label>
-          <input type="text" />
-          <label>Status</label>
-          <input type="text" />
+          <input
+            type="number"
+            name="price"
+            step="0.01"
+            value={formData.price}
+            onChange={handleChange}
+          />
+
           <label>Quantity</label>
-          <input type="text" />
-          <button className="save-button">Save</button>
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+          />
+
+          <label>Unit of Measure</label>
+          <input
+            type="text"
+            name="unit_of_measure"
+            value={formData.unit_of_measure}
+            onChange={handleChange}
+          />
+
+          <label>Product Images</label>
+          <input
+            type="file"
+            name="productImages"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+          />
+
+          <button className="save-button" type="submit">
+            Save
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
