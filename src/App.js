@@ -10,6 +10,10 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import FarmerMain from "./Components/Farmer/FarmerMain";
 import ProdList from "./Components/Farmer/prodlist";
+import Report from "./Components/Farmer/Report";
+import Inventory from "./Components/Farmer/Inv";
+import Order from "./Components/Farmer/Order";
+import Account from "./Components/Farmer/Account";
 
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
@@ -55,6 +59,38 @@ const App = () => {
           element={
             <ProtectedRoute role="farmer">
               <ProdList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/report"
+          element={
+            <ProtectedRoute role="farmer">
+              <Report />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/inventory"
+          element={
+            <ProtectedRoute role="farmer">
+              <Inventory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <ProtectedRoute role="farmer">
+              <Order />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute role="farmer">
+              <Account />
             </ProtectedRoute>
           }
         />

@@ -1,6 +1,6 @@
 // Components/Farmer/Order.js
 import React, { useEffect, useState } from "react";
-import "../Styles/order.css";
+import "../../Styles/order.css";
 import { useNavigate } from "react-router-dom";
 
 const Order = () => {

@@ -1,6 +1,6 @@
 // Components/Farmer/Inv.js
 import React, { useEffect, useState } from "react";
-import "../Styles/Inventory.css"; // Ensure Inventory.css exists and is styled
+import "../../Styles/Inventory.css"; // Ensure Inventory.css exists and is styled
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 

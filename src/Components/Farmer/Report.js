@@ -1,7 +1,7 @@
 // Components/Farmer/Report.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../Styles/Report.css";
+import "../../Styles/Report.css";
 import { useNavigate } from "react-router-dom";
 
 const Report = () => {

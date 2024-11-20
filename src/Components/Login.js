@@ -53,14 +53,14 @@ const Login = () => {
 
   return (
     <div className="container">
-     <div className="login-header">
-      <img 
-        src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png" 
-        alt="Farm Icon" 
-        className="farm-icon" 
-      />
-      <h1 className="title">FARMER MARKET</h1>
-    </div>
+      <div className="login-header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
+          alt="Farm Icon"
+          className="farm-icon"
+        />
+        <h1 className="title">FARMER MARKET</h1>
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -83,6 +83,9 @@ const Login = () => {
         </button>
         {error && <p>{error}</p>}
       </form>
+      <div className="btn reg-btn" onClick={() => navigate("/register")}>
+        Don't you have an account? <span>Sign up</span>
+      </div>
     </div>
   );
 };
