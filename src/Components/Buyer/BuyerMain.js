@@ -1,7 +1,8 @@
 // Components/Buyer/BuyerMain.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Styles/BuyerMain.css";
+import AuthContext from "../../context/AuthContext";
 
 const BuyerMain = () => {
   const navigate = useNavigate();
@@ -9,19 +10,20 @@ const BuyerMain = () => {
   const [categories, setCategories] = useState([]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const { logout } = useContext(AuthContext); // Access the logout function from context
 
-   
   useEffect(() => {
     const fetchRecommendations = () => {
       if (products.length > 0) {
-        const randomSelection = products.sort(() => 0.5 - Math.random()).slice(0, 3); // Select 3 random products
+        const randomSelection = products
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3); // Select 3 random products
         setRecommendedProducts(randomSelection);
       }
     };
-  
+
     fetchRecommendations();
   }, [products]); // Trigger whenever products are fetched
-  
 
   // Fetch categories when the component mounts
   useEffect(() => {
@@ -30,11 +32,14 @@ const BuyerMain = () => {
         const token = localStorage.getItem("token");
 
         // Fetch categories
-        const response = await fetch("http://localhost:8383/api/buyer/categories", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:8383/api/buyer/categories",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -54,7 +59,6 @@ const BuyerMain = () => {
     logout(); // Clear token and role from localStorage
     navigate("/"); // Redirect to login page
   };
-
 
   const handleCategoryClick = (categoryId) => {
     navigate(`/buyer/products?category=${categoryId}`);
@@ -94,10 +98,7 @@ const BuyerMain = () => {
 
   return (
     <div className="buyer-main-container">
-
-
-
-<div className="header">
+      <div className="header">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -109,9 +110,9 @@ const BuyerMain = () => {
             alt="Mail Icon"
             className="mail-icon"
           />
-           <button className="cart-button" onClick={() => navigate("/cart")}>
-      Cart ({cart.length})
-    </button>
+          <button className="cart-button" onClick={() => navigate("/cart")}>
+            Cart ({cart.length})
+          </button>
           <button
             className="account-button"
             onClick={() => navigate("/account")}
@@ -161,26 +162,24 @@ const BuyerMain = () => {
         ))}
       </div>
       <h2>Recommendations</h2>
-<div className="recommendation-grid">
-  {recommendedProducts.map((product) => (
-    <div className="recommendation-card" key={product.id}>
-      <img
-        src={product.images[0]}
-        alt={product.name}
-        className="recommendation-image"
-      />
-      <h3>{product.name}</h3>
-      <p>Price: ${product.price}</p>
-      <button onClick={() => handleOrderClick(product.id)}>
-        Order Now
-      </button>
-    </div>
-  ))}
-</div>
-
+      <div className="recommendation-grid">
+        {recommendedProducts.map((product) => (
+          <div className="recommendation-card" key={product.id}>
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="recommendation-image"
+            />
+            <h3>{product.name}</h3>
+            <p>Price: ${product.price}</p>
+            <button onClick={() => handleOrderClick(product.id)}>
+              Order Now
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default BuyerMain;
-
