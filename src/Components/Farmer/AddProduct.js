@@ -1,11 +1,10 @@
-// Components/Farmer/AddProduct.js
 import React, { useState, useEffect } from "react";
 import "../../Styles/AddProduct.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddProduct = () => {
-  const [categories, setCategories] = useState([]); // Categories fetched from the backend
+  const [categories, setCategories] = useState([]); // Categories fetched from the profile
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -19,20 +18,24 @@ const AddProduct = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:8383/api/farmer/crop-types",
+
+        // Fetch farmer profile
+        const profileResponse = await axios.get(
+          "http://localhost:8383/api/farmer/profile",
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setCategories(response.data.categories);
+
+        // Pre-select crops from the profile
+        setCategories(profileResponse.data.crops || []);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching profile:", error);
       }
     };
 
-    fetchCategories();
+    fetchProfile();
   }, []);
 
   const handleChange = (e) => {
@@ -119,9 +122,9 @@ const AddProduct = () => {
             onChange={handleChange}
           >
             <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
               </option>
             ))}
           </select>

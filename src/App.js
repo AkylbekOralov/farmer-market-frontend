@@ -15,7 +15,10 @@ import Inventory from "./Components/Farmer/Inv";
 import Order from "./Components/Farmer/Order";
 import Account from "./Components/Farmer/Account";
 import AddProduct from "./Components/Farmer/AddProduct";
+import EditProduct from "./Components/Farmer/EditProduct";
 
+// Buyer
+import BuyerMain from "./Components/Buyer/BuyerMain";
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
 
@@ -100,6 +103,22 @@ const App = () => {
           element={
             <ProtectedRoute role="farmer">
               <AddProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-product/:productId"
+          element={
+            <ProtectedRoute role="farmer">
+              <EditProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer-main"
+          element={
+            <ProtectedRoute role="buyer">
+              <BuyerMain />
             </ProtectedRoute>
           }
         />

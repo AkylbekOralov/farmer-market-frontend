@@ -38,6 +38,8 @@ const Login = () => {
         login(data.token, data.role); // Save token and role in AuthContext
         if (data.role === "farmer") {
           navigate("/farmer-main");
+        } else if (data.role === "buyer") {
+          navigate("/buyer-main");
         } else {
           setError("Unauthorized role for this application.");
         }

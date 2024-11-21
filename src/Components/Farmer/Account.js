@@ -126,16 +126,16 @@ const Account = () => {
           className="main-logo"
         />
         <div className="right-section">
-            <img
+          <img
             src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
             alt="Mail Icon"
             className="mail-icon"
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-main")}
           >
-            My account
+            Main
           </button>
           <button className="logout-button" onClick={() => navigate("/")}>
             Log out
