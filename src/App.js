@@ -114,6 +114,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/buyer-main"
           element={

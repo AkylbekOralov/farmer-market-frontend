@@ -219,6 +219,7 @@ const ProdList = () => {
               >
                 Edit
               </button>
+
               <button
                 className="delete-button"
                 onClick={async () => {
