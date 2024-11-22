@@ -1,29 +1,51 @@
 // Components/Farmer/Inv.js
 import React, { useEffect, useState } from "react";
-import "../../Styles/Inventory.css"; // Ensure Inventory.css exists and is styled
+import "../../Styles/Inventory.css"; // Ensure this CSS file exists
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Inventory = () => {
   const navigate = useNavigate();
   const [inventoryData, setInventoryData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // State to store search query
+  const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState("All");
 
   useEffect(() => {
-    // Fetch data from the mock inventory.json file
-    axios
-      .get("/inventory.json")
-      .then((response) => setInventoryData(response.data))
-      .catch((error) => console.error("Error fetching inventory data:", error));
+    // Fetch inventory and categories
+    const fetchInventory = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        // Fetch inventory data
+        const inventoryResponse = await axios.get(
+          "http://localhost:8383/api/farmer/products", // Backend endpoint for products
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const products = inventoryResponse.data.products || [];
+        setInventoryData(products);
+
+        // Fetch categories
+        const categoriesResponse = await axios.get(
+          "http://localhost:8383/api/farmer/crop-types", // Backend endpoint for crop types
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setCategories(["All", ...categoriesResponse.data.categories.map(c => c.name)]);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchInventory();
   }, []);
 
-  // Filtered data based on the search query
-  const filteredData = inventoryData.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.id.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filtered inventory data
+  const filteredData = inventoryData.filter((item) => {
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      filterCategory === "All" || item.category_name?.toLowerCase() === filterCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="inventory-container">
@@ -39,14 +61,11 @@ const Inventory = () => {
             alt="Mail Icon"
             className="mail-icon"
           />
-          <button
-            className="account-button"
-            onClick={() => navigate("/account")}
-          >
-            My account
+          <button className="account-button" onClick={() => navigate("/account")}>
+            My Account
           </button>
           <button className="logout-button" onClick={() => navigate("/")}>
-            Log out
+            Log Out
           </button>
         </div>
       </div>
@@ -61,15 +80,26 @@ const Inventory = () => {
         </button>
       </h1>
 
-      <div className="search-bar">
+      <div className="search-filters">
         <input
           type="text"
-          placeholder="Quick search"
+          placeholder="Search by Name"
           className="search-input"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button className="status-button">Status</button>
+
+        <select
+          className="category-filter"
+          value={filterCategory}
+          onChange={(e) => setFilterCategory(e.target.value)}
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div>
 
       <table className="inventory-table">
@@ -86,22 +116,24 @@ const Inventory = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((item, index) => (
-            <tr key={index}>
+          {filteredData.map((item) => (
+            <tr key={item.id}>
               <td>
                 <input type="checkbox" />
               </td>
               <td>{item.id}</td>
               <td>{item.name}</td>
-              <td>{item.category}</td>
-              <td>{item.quantity}</td>
+              <td>{item.category_name}</td>
+              <td>
+                {item.quantity} {item.unit_of_measure}
+              </td>
               <td>
                 <span
                   className={`status ${
-                    item.inStock ? "in-stock" : "out-of-stock"
+                    item.inventory_status === "In Stock" ? "in-stock" : "out-of-stock"
                   }`}
                 >
-                  {item.inStock ? "In Stock" : "Out of Stock"}
+                  {item.inventory_status}
                 </span>
               </td>
             </tr>
@@ -113,3 +145,4 @@ const Inventory = () => {
 };
 
 export default Inventory;
+
