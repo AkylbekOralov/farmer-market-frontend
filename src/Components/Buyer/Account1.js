@@ -1,4 +1,4 @@
-// Components/Farmer/Account.js
+// Components/Buyer/Account1.js
 import React, { useEffect, useState } from "react";
 import "../../Styles/Account.css";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,9 @@ import axios from "axios";
 
 const Account = () => {
   const [userData, setUserData] = useState({});
-  const [farmData, setFarmData] = useState({});
+  const [buyerProfile, setBuyerProfile] = useState({});
+  const [paymentInfo, setPaymentInfo] = useState({});
   const [profilePicture, setProfilePicture] = useState(null);
-  const [cropTypes, setCropTypes] = useState([]); // Store available crop types as names
-  const [selectedCrops, setSelectedCrops] = useState([]); // Track selected crop names
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,49 +16,36 @@ const Account = () => {
       try {
         const token = localStorage.getItem("token");
 
-        // Fetch farmer profile
-        const profileResponse = await axios.get(
-          "http://localhost:8383/api/farmer/profile",
+        // Fetch user and buyer profile details
+        const userResponse = await axios.get(
+          "http://localhost:8383/api/buyer/profile",
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
         setUserData({
-          username: profileResponse.data.username,
-          email: profileResponse.data.email,
-          phone: profileResponse.data.phone,
+          username: userResponse.data.username,
+          email: userResponse.data.email,
+          phone: userResponse.data.phone,
         });
 
-        setFarmData({
-          farmAddress: profileResponse.data.farmAddress,
-          farmSize: profileResponse.data.farmSize,
+        setBuyerProfile({
+          deliveryAddress: userResponse.data.delivery_address,
         });
 
-        // Pre-select crops from the profile
-        setSelectedCrops(profileResponse.data.crops || []);
-        setProfilePicture(profileResponse.data.profilePicture);
+        setPaymentInfo({
+          cardNumber: userResponse.data.payment?.card_number || "",
+          expireDate: userResponse.data.payment?.expire_date || "",
+          ownerName: userResponse.data.payment?.owner_name || "",
+          cvc: userResponse.data.payment?.cvc || "",
+        });
+
+        setProfilePicture(userResponse.data.profile_picture);
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
     };
 
-    const fetchCropTypes = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        // Fetch crop types from categories
-        const cropResponse = await axios.get(
-          "http://localhost:8383/api/farmer/crop-types",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        setCropTypes(cropResponse.data.categories.map((crop) => crop.name)); // Use names
-      } catch (error) {
-        console.error("Error fetching crop types:", error);
-      }
-    };
-
     fetchProfile();
-    fetchCropTypes();
   }, []);
 
   const handleProfilePictureChange = async (e) => {
@@ -70,7 +56,7 @@ const Account = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8383/api/farmer/profile-picture",
+        "http://localhost:8383/api/buyer/profile-picture",
         formData,
         {
           headers: {
@@ -86,27 +72,21 @@ const Account = () => {
     }
   };
 
-  const handleCropSelection = (cropName) => {
-    // Toggle crop selection by name
-    setSelectedCrops(
-      (prevCrops) =>
-        prevCrops.includes(cropName)
-          ? prevCrops.filter((name) => name !== cropName) // Remove if already selected
-          : [...prevCrops, cropName] // Add if not selected
-    );
-  };
-
   const handleProfileUpdate = async () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        "http://localhost:8383/api/farmer/profile",
+        "http://localhost:8383/api/buyer/profile",
         {
           username: userData.username,
           phone: userData.phone,
-          farmAddress: farmData.farmAddress,
-          farmSize: farmData.farmSize,
-          crops: selectedCrops, // Send updated crop names
+          deliveryAddress: buyerProfile.deliveryAddress,
+          payment: {
+            cardNumber: paymentInfo.cardNumber,
+            expireDate: paymentInfo.expireDate,
+            ownerName: paymentInfo.ownerName,
+            cvc: paymentInfo.cvc,
+          },
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -122,20 +102,20 @@ const Account = () => {
       <div className="header">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
-          alt="Farm Icon"
+          alt="Buyer Icon"
           className="main-logo"
         />
         <div className="right-section">
-            <img
+          <img
             src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
             alt="Mail Icon"
             className="mail-icon"
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account1")}
+            onClick={() => navigate("/buyer-main")}
           >
-            My account
+            Main
           </button>
           <button className="logout-button" onClick={() => navigate("/")}>
             Log out
@@ -143,10 +123,10 @@ const Account = () => {
         </div>
       </div>
 
-      <div className="account-container">
+      <div className="account-container buyer">
         {/* User Info */}
         <div className="user-info">
-          <h2>About account</h2>
+          <h2>About Account</h2>
           <div className="profile-pic-section">
             <img
               src={
@@ -184,46 +164,69 @@ const Account = () => {
           </div>
         </div>
 
-        {/* Farm Info */}
-        <div className="farm-info">
-          <h2>About farm</h2>
-          <div className="farm-details">
-            <label>
-              Farm Address:{" "}
-              <input
-                type="text"
-                value={farmData.farmAddress}
-                onChange={(e) =>
-                  setFarmData({ ...farmData, farmAddress: e.target.value })
-                }
-              />
-            </label>
-            <label>
-              Farm Size:{" "}
-              <input
-                type="text"
-                value={farmData.farmSize}
-                onChange={(e) =>
-                  setFarmData({ ...farmData, farmSize: e.target.value })
-                }
-              />
-            </label>
-            <label>Crops:</label>
-            <div className="crop-types">
-              {cropTypes.map((cropName) => (
-                <div key={cropName} className="crop-type">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={selectedCrops.includes(cropName)} // Pre-select crops
-                      onChange={() => handleCropSelection(cropName)}
-                    />
-                    {cropName}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Buyer Info */}
+        <div className="buyer-info">
+          <h2>Delivery Information</h2>
+          <label>
+            Delivery Address:{" "}
+            <input
+              type="text"
+              value={buyerProfile.deliveryAddress}
+              onChange={(e) =>
+                setBuyerProfile({
+                  ...buyerProfile,
+                  deliveryAddress: e.target.value,
+                })
+              }
+            />
+          </label>
+        </div>
+
+        {/* Payment Info */}
+        <div className="payment-info">
+          <h2>Payment Information</h2>
+          <label>
+            Card Number:{" "}
+            <input
+              type="text"
+              maxLength="16"
+              value={paymentInfo.cardNumber}
+              onChange={(e) =>
+                setPaymentInfo({ ...paymentInfo, cardNumber: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            Expire Date:{" "}
+            <input
+              type="date"
+              value={paymentInfo.expireDate}
+              onChange={(e) =>
+                setPaymentInfo({ ...paymentInfo, expireDate: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            Owner Name:{" "}
+            <input
+              type="text"
+              value={paymentInfo.ownerName}
+              onChange={(e) =>
+                setPaymentInfo({ ...paymentInfo, ownerName: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            CVC:{" "}
+            <input
+              type="text"
+              maxLength="3"
+              value={paymentInfo.cvc}
+              onChange={(e) =>
+                setPaymentInfo({ ...paymentInfo, cvc: e.target.value })
+              }
+            />
+          </label>
         </div>
 
         <button className="update-button" onClick={handleProfileUpdate}>

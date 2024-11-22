@@ -1,4 +1,3 @@
-// Components/Buyer/BuyerMain.js
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Styles/BuyerMain.css";
@@ -7,10 +6,13 @@ import AuthContext from "../../context/AuthContext";
 const BuyerMain = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [displayedProducts, setDisplayedProducts] = useState([]); // For pagination
   const [categories, setCategories] = useState([]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [cart, setCart] = useState([]);
-  const { logout } = useContext(AuthContext); // Access the logout function from context
+  const { logout } = useContext(AuthContext);
+
+  const [limit, setLimit] = useState(8); // Number of products to display
 
   useEffect(() => {
     const fetchRecommendations = () => {
@@ -23,7 +25,7 @@ const BuyerMain = () => {
     };
 
     fetchRecommendations();
-  }, [products]); // Trigger whenever products are fetched
+  }, [products]);
 
   // Fetch categories when the component mounts
   useEffect(() => {
@@ -56,8 +58,8 @@ const BuyerMain = () => {
   }, []);
 
   const handleLogout = () => {
-    logout(); // Clear token and role from localStorage
-    navigate("/"); // Redirect to login page
+    logout();
+    navigate("/");
   };
 
   const handleCategoryClick = (categoryId) => {
@@ -68,12 +70,12 @@ const BuyerMain = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const token = localStorage.getItem("token"); // Get token from localStorage
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:8383/api/buyer/products",
+          "http://localhost:8383/api/buyer/products?sortBy=created_at&order=desc",
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Pass token in header
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -84,6 +86,7 @@ const BuyerMain = () => {
 
         const data = await response.json();
         setProducts(data);
+        setDisplayedProducts(data.slice(0, 8)); // Initially display first 10 products
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -93,7 +96,17 @@ const BuyerMain = () => {
   }, []);
 
   const handleOrderClick = (productId) => {
-    navigate(`/buyer/order/${productId}`); // Navigate to order page with product ID
+    navigate(`/buyer/order/${productId}`);
+  };
+
+  const showMoreProducts = () => {
+    setLimit((prevLimit) => prevLimit + 8); // Increase the limit by 10
+    setDisplayedProducts(products.slice(0, limit + 10));
+  };
+
+  const hideProducts = () => {
+    setLimit(8); // Reset the limit to 10
+    setDisplayedProducts(products.slice(0, 8));
   };
 
   return (
@@ -115,7 +128,7 @@ const BuyerMain = () => {
           </button>
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/buyer-account")}
           >
             My account
           </button>
@@ -124,6 +137,7 @@ const BuyerMain = () => {
           </button>
         </div>
       </div>
+
       <h2>Shop by Category</h2>
       <div className="categories-grid">
         {categories.map((category) => (
@@ -145,10 +159,10 @@ const BuyerMain = () => {
 
       <h2>Available Products</h2>
       <div className="products-grid">
-        {products.map((product) => (
+        {displayedProducts.map((product) => (
           <div className="product-card" key={product.id}>
             <img
-              src={product.images[0]}
+              src={`http://localhost:8383/${product.images[0]}`}
               alt={product.name}
               className="product-image"
             />
@@ -161,12 +175,26 @@ const BuyerMain = () => {
           </div>
         ))}
       </div>
+      {products.length > 10 && (
+        <div className="pagination-buttons">
+          {limit < products.length && (
+            <button className="show-more-button" onClick={showMoreProducts}>
+              Show More
+            </button>
+          )}
+          {limit > 10 && (
+            <button className="hide-button" onClick={hideProducts}>
+              Hide
+            </button>
+          )}
+        </div>
+      )}
       <h2>Recommendations</h2>
       <div className="recommendation-grid">
         {recommendedProducts.map((product) => (
           <div className="recommendation-card" key={product.id}>
             <img
-              src={product.images[0]}
+              src={`http://localhost:8383/${product.images[0]}`}
               alt={product.name}
               className="recommendation-image"
             />

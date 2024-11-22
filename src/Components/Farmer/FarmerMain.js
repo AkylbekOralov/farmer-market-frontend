@@ -80,7 +80,7 @@ const FarmerMain = () => {
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-account")}
           >
             My account
           </button>

@@ -8,6 +8,8 @@ import {
 import AuthContext from "./context/AuthContext";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
+
+//Farmer
 import FarmerMain from "./Components/Farmer/FarmerMain";
 import ProdList from "./Components/Farmer/prodlist";
 import Report from "./Components/Farmer/Report";
@@ -19,6 +21,8 @@ import EditProduct from "./Components/Farmer/EditProduct";
 
 // Buyer
 import BuyerMain from "./Components/Buyer/BuyerMain";
+import Account1 from "./Components/Buyer/Account1";
+
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
 
@@ -48,7 +52,6 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         {/* Protected Routes */}
         <Route
           path="/farmer-main"
@@ -91,7 +94,7 @@ const App = () => {
           }
         />
         <Route
-          path="/account"
+          path="/farmer-account"
           element={
             <ProtectedRoute role="farmer">
               <Account />
@@ -114,12 +117,20 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        // For Buyers
         <Route
           path="/buyer-main"
           element={
             <ProtectedRoute role="buyer">
               <BuyerMain />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer-account"
+          element={
+            <ProtectedRoute role="buyer">
+              <Account1 />
             </ProtectedRoute>
           }
         />
