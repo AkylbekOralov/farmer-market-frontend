@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import "../../Styles/AddProduct.css";
 import { useNavigate } from "react-router-dom";
@@ -97,8 +98,9 @@ const AddProduct = () => {
         </div>
       </div>
 
-      <h1>Add New Product</h1>
-      <form className="product-form" onSubmit={handleSubmit}>
+      
+      <form className="product-form" onSubmit={handleSubmit}>  
+  <h1>Add New Product</h1>
         <div className="form-fields">
           <label>Product Name</label>
           <input
