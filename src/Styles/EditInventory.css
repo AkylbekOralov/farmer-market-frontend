@@ -1,1 +1,77 @@
 
+/* Main container styling */
+.edit-inventory-container {
+    margin-top: 90px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+
+    /* Centering Styles */
+    display: flex;
+    flex-direction: column; /* Adjusted for form structure */
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Optional background color */
+}
+
+/* Title styling */
+.edit-inventory-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Form field styling */
+.edit-inventory-container label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.edit-inventory-container .quantity-input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+/* Button styling */
+.save-button,
+.cancel-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    width: 150px; /* Fixed width for consistency */
+}
+
+
+.cancel-button {
+    background-color: #d9534f; /* Bootstrap danger color */
+}
+
+.save-button:hover,
+.cancel-button:hover {
+    opacity: 0.9;
+}
