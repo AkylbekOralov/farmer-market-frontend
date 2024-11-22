@@ -128,8 +128,9 @@ const EditProduct = () => {
         </div>
       </div>
 
-      <h1>Edit Product</h1>
+      
       <form className="product-form" onSubmit={handleSubmit}>
+  <h1>Edit Product</h1>
         <div className="form-fields">
           <label>Product Name</label>
           <input
