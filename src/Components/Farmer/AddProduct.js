@@ -86,6 +86,11 @@ const AddProduct = () => {
           className="main-logo"
         />
         <div className="right-section">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+            alt="Mail Icon"
+            className="mail-icon"
+          />
           <button
             className="account-button"
             onClick={() => navigate("/account")}
