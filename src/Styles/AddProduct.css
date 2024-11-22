@@ -2,11 +2,18 @@
 
 /* Main container styling */
 .add-product-container {
-    margin-top: 60px;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
+  margin-top: 60px; /* Optional: Adjust the spacing above */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  /* Centering Styles */
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Make container take full viewport height */
+  box-sizing: border-box; /* Ensure padding is included in dimensions */
+}
+
   /* Header styling */
   .header {
     display: flex;
