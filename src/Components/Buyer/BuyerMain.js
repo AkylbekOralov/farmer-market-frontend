@@ -1,25 +1,29 @@
+// components/Buyer/BuyerMain.js
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../Styles/BuyerMain.css";
+import "../../Styles/Buyer/BuyerMain.css";
 import AuthContext from "../../context/AuthContext";
+import axios from "axios";
 
 const BuyerMain = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [displayedProducts, setDisplayedProducts] = useState([]); // For pagination
+  const [displayedProducts, setDisplayedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const { logout } = useContext(AuthContext);
+  const [limit, setLimit] = useState(8);
 
-  const [limit, setLimit] = useState(8); // Number of products to display
+  // Track the quantity for each product
+  const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
     const fetchRecommendations = () => {
       if (products.length > 0) {
         const randomSelection = products
           .sort(() => 0.5 - Math.random())
-          .slice(0, 3); // Select 3 random products
+          .slice(0, 3);
         setRecommendedProducts(randomSelection);
       }
     };
@@ -27,13 +31,11 @@ const BuyerMain = () => {
     fetchRecommendations();
   }, [products]);
 
-  // Fetch categories when the component mounts
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem("token");
 
-        // Fetch categories
         const response = await fetch(
           "http://localhost:8383/api/buyer/categories",
           {
@@ -66,7 +68,6 @@ const BuyerMain = () => {
     navigate(`/buyer/products?category=${categoryId}`);
   };
 
-  // Fetch products when the component mounts
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -86,26 +87,93 @@ const BuyerMain = () => {
 
         const data = await response.json();
         setProducts(data);
-        setDisplayedProducts(data.slice(0, 8)); // Initially display first 10 products
+        setDisplayedProducts(data.slice(0, 8));
+        initializeQuantities(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
+    const fetchCart = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:8383/api/buyer/cart",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setCart(response.data.cart || []);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
     fetchProducts();
+    fetchCart();
   }, []);
 
+  const initializeQuantities = (products) => {
+    const initialQuantities = {};
+    products.forEach((product) => {
+      initialQuantities[product.id] = 1; // Default to 1
+    });
+    setQuantities(initialQuantities);
+  };
+
+  const handleQuantityChange = (productId, action) => {
+    setQuantities((prevQuantities) => {
+      const newQuantities = { ...prevQuantities };
+      if (action === "increment") {
+        newQuantities[productId] = Math.min(
+          newQuantities[productId] + 1,
+          products.find((p) => p.id === productId).quantity // Limit by available quantity
+        );
+      } else if (action === "decrement") {
+        newQuantities[productId] = Math.max(newQuantities[productId] - 1, 1);
+      }
+      return newQuantities;
+    });
+  };
+
   const handleOrderClick = (productId) => {
-    navigate(`/buyer/order/${productId}`);
+    const quantity = quantities[productId];
+    navigate(`/buyer/order/${productId}?quantity=${quantity}`);
+  };
+
+  const handleAddToCart = async (product) => {
+    const quantity = quantities[product.id];
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:8383/api/buyer/cart",
+        {
+          product_id: product.id,
+          quantity: quantity,
+          price: product.price,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setCart((prevCart) => [...prevCart, response.data.cartItem]);
+      alert(
+        `${product.name} (Quantity: ${quantity}) has been added to your cart.`
+      );
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      alert("Failed to add product to cart.");
+    }
   };
 
   const showMoreProducts = () => {
-    setLimit((prevLimit) => prevLimit + 8); // Increase the limit by 10
-    setDisplayedProducts(products.slice(0, limit + 10));
+    setLimit((prevLimit) => prevLimit + 8);
+    setDisplayedProducts(products.slice(0, limit + 8));
   };
 
   const hideProducts = () => {
-    setLimit(8); // Reset the limit to 10
+    setLimit(8);
     setDisplayedProducts(products.slice(0, 8));
   };
 
@@ -168,9 +236,29 @@ const BuyerMain = () => {
             />
             <h3>{product.name}</h3>
             <p>Price: ${product.price}</p>
-            <p>Category: {product.category?.name || "Uncategorized"}</p>
+            <p>
+              Available: {product.quantity} {product.unit_of_measure}
+            </p>
+            <div className="quantity-controls">
+              <button
+                className="quantity-btn"
+                onClick={() => handleQuantityChange(product.id, "decrement")}
+              >
+                -
+              </button>
+              <span>{quantities[product.id]}</span>
+              <button
+                className="quantity-btn"
+                onClick={() => handleQuantityChange(product.id, "increment")}
+              >
+                +
+              </button>
+            </div>
             <button onClick={() => handleOrderClick(product.id)}>
               Order Now
+            </button>
+            <button onClick={() => handleAddToCart(product)}>
+              Add to Cart
             </button>
           </div>
         ))}
@@ -202,6 +290,9 @@ const BuyerMain = () => {
             <p>Price: ${product.price}</p>
             <button onClick={() => handleOrderClick(product.id)}>
               Order Now
+            </button>
+            <button onClick={() => handleAddToCart(product)}>
+              Add to Cart
             </button>
           </div>
         ))}

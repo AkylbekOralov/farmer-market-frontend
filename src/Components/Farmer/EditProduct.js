@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../Styles/EditProduct.css";
+import "../../Styles/Farmer/EditProduct.css";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -133,9 +133,8 @@ const EditProduct = () => {
         </div>
       </div>
 
-      
       <form className="product-form" onSubmit={handleSubmit}>
-  <h1>Edit Product</h1>
+        <h1>Edit Product</h1>
         <div className="form-fields">
           <label>Product Name</label>
           <input

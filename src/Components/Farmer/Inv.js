@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../../Styles/Inventory.css";
+import "../../Styles/Farmer/Inventory.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 
 const Inventory = () => {
   const navigate = useNavigate();
@@ -25,7 +24,10 @@ const Inventory = () => {
           "http://localhost:8383/api/farmer/crop-types",
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setCategories(["All", ...categoriesResponse.data.categories.map((c) => c.name)]);
+        setCategories([
+          "All",
+          ...categoriesResponse.data.categories.map((c) => c.name),
+        ]);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
@@ -35,9 +37,12 @@ const Inventory = () => {
   }, []);
 
   const filteredData = inventoryData.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     const matchesCategory =
-      filterCategory === "All" || item.category_name?.toLowerCase() === filterCategory.toLowerCase();
+      filterCategory === "All" ||
+      item.category_name?.toLowerCase() === filterCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
 
@@ -50,7 +55,10 @@ const Inventory = () => {
           className="main-logo"
         />
         <div className="right-section">
-          <button className="account-button" onClick={() => navigate("/account")}>
+          <button
+            className="account-button"
+            onClick={() => navigate("/account")}
+          >
             My Account
           </button>
           <button className="logout-button" onClick={() => navigate("/")}>
@@ -61,7 +69,6 @@ const Inventory = () => {
 
       <h1 className="page-title-container">
         <span className="page-title">Inventory</span>
-       
       </h1>
 
       <div className="search-filters">
@@ -102,30 +109,32 @@ const Inventory = () => {
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.category_name}</td>
-              <td>{item.quantity} {item.unit_of_measure}</td>
+              <td>
+                {item.quantity} {item.unit_of_measure}
+              </td>
               <td>
                 <span
                   className={`status ${
-                    item.inventory_status === "In Stock" ? "in-stock" : "out-of-stock"
+                    item.inventory_status === "In Stock"
+                      ? "in-stock"
+                      : "out-of-stock"
                   }`}
                 >
                   {item.inventory_status}
                 </span>
               </td>
               <td>
-              <button
-  className="edit-button"
-  onClick={() =>
-    navigate(`/inventory/edit/${item.id}`, {
-      state: { quantity: item.quantity },
-    })
-  }
->
-  Edit
-</button>
-
-</td>
-
+                <button
+                  className="edit-button"
+                  onClick={() =>
+                    navigate(`/inventory/edit/${item.id}`, {
+                      state: { quantity: item.quantity },
+                    })
+                  }
+                >
+                  Edit
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -135,5 +144,3 @@ const Inventory = () => {
 };
 
 export default Inventory;
-
-

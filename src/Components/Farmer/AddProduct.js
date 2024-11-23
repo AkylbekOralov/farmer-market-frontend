@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import "../../Styles/AddProduct.css";
+import "../../Styles/Farmer/AddProduct.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -93,7 +92,7 @@ const AddProduct = () => {
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-account")}
           >
             My account
           </button>
@@ -103,9 +102,8 @@ const AddProduct = () => {
         </div>
       </div>
 
-      
-      <form className="product-form" onSubmit={handleSubmit}>  
-  <h1>Add New Product</h1>
+      <form className="product-form" onSubmit={handleSubmit}>
+        <h1>Add New Product</h1>
         <div className="form-fields">
           <label>Product Name</label>
           <input

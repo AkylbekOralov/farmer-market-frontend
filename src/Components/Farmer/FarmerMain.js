@@ -1,6 +1,6 @@
 // Components/Farmer/FarmerMain.js
 import React, { useEffect, useState, useContext } from "react";
-import "../../Styles/FarmerMain.css";
+import "../../Styles/Farmer/FarmerMain.css";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 

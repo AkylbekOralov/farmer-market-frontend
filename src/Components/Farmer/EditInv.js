@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import '../../Styles/EditInventory.css';
-
+import "../../Styles/Buyer/EditInventory.css";
 
 const EditInventory = () => {
   const navigate = useNavigate();
@@ -31,13 +30,15 @@ const EditInventory = () => {
       }
     } catch (error) {
       console.error("Error updating quantity:", error.message);
-      setErrorMessage(error.response?.data?.message || "Failed to update quantity");
+      setErrorMessage(
+        error.response?.data?.message || "Failed to update quantity"
+      );
     }
   };
 
   return (
     <div className="edit-inventory-container">
-       <div className="header">
+      <div className="header">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -72,15 +73,17 @@ const EditInventory = () => {
         />
       </label>
       <div className="buttons-container">
-      <button onClick={updateQuantity} className="save-button">
-        Save Changes
-      </button>
-      <button onClick={() => navigate("/inventory")} className="cancel-button">
-        Cancel
-      </button>
+        <button onClick={updateQuantity} className="save-button">
+          Save Changes
+        </button>
+        <button
+          onClick={() => navigate("/inventory")}
+          className="cancel-button"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
-  </div>
-
   );
 };
 

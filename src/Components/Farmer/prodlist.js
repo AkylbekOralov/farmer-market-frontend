@@ -1,6 +1,6 @@
 // Components/Farmer/prodlist
 import React, { useState, useEffect } from "react";
-import "../../Styles/ProdList.css"; // Create CSS file similar to style in your image
+import "../../Styles/Farmer/ProdList.css"; // Create CSS file similar to style in your image
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -113,7 +113,7 @@ const ProdList = () => {
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-account")}
           >
             My account
           </button>
