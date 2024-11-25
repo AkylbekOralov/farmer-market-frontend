@@ -200,6 +200,12 @@ const BuyerMain = () => {
           >
             My account
           </button>
+          <button
+            className="account-button"
+            onClick={() => navigate("/buyer-order")}
+          >
+            Orders
+          </button>
           <button className="logout-button" onClick={handleLogout}>
             Log out
           </button>

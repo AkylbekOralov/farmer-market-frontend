@@ -23,6 +23,8 @@ import EditProduct from "./Components/Farmer/EditProduct";
 import BuyerMain from "./Components/Buyer/BuyerMain";
 import Account1 from "./Components/Buyer/Account1";
 import Cart from "./Components/Buyer/Cart";
+import BuyerOrder from "./Components/Buyer/Order";
+import OrderDetails from "./Components/Buyer/OrderDetails";
 
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
@@ -140,6 +142,22 @@ const App = () => {
           element={
             <ProtectedRoute role="buyer">
               <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer-order"
+          element={
+            <ProtectedRoute role="buyer">
+              <BuyerOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:orderId"
+          element={
+            <ProtectedRoute role="buyer">
+              <OrderDetails />
             </ProtectedRoute>
           }
         />

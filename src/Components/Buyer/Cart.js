@@ -9,6 +9,13 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const { logout } = useContext(AuthContext);
 
+  // Calculate the total cost of all items in the cart
+  const calculateTotalCost = () => {
+    return cartItems
+      .reduce((total, item) => total + item.quantity * item.product.price, 0)
+      .toFixed(2);
+  };
+
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -38,7 +45,9 @@ const Cart = () => {
 
     const newQuantity =
       action === "increment"
-        ? Math.min(updatedItem.quantity + 1, updatedItem.product.quantity)
+        ? updatedItem.quantity + 1 > updatedItem.product.quantity
+          ? updatedItem.product.quantity
+          : updatedItem.quantity + 1
         : Math.max(updatedItem.quantity - 1, 1);
 
     try {
@@ -79,8 +88,24 @@ const Cart = () => {
     }
   };
 
-  const handleCheckout = () => {
-    navigate("/checkout");
+  const handlePlaceOrder = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:8383/api/buyer/place-order",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      alert("Order placed successfully!");
+      console.log("Order details:", response.data);
+      navigate("/buyer-order"); // Redirect to the order history page
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Failed to place order. Please try again.");
+    }
   };
 
   return (
@@ -97,6 +122,12 @@ const Cart = () => {
             onClick={() => navigate("/buyer-account")}
           >
             My account
+          </button>
+          <button
+            className="account-button"
+            onClick={() => navigate("/buyer-main")}
+          >
+            Main
           </button>
           <button className="logout-button" onClick={logout}>
             Log out
@@ -132,7 +163,9 @@ const Cart = () => {
                     >
                       -
                     </button>
-                    <span>{item.quantity}</span>
+                    <span>
+                      {item.quantity} {item.product.unit_of_measure}
+                    </span>
                     <button
                       className="quantity-btn"
                       onClick={() =>
@@ -152,8 +185,14 @@ const Cart = () => {
               </div>
             ))}
           </div>
+
+          {/* Total cost section */}
+          <div className="cart-summary">
+            <h3>Total Cost: ${calculateTotalCost()}</h3>
+          </div>
+
           <div className="cart-footer">
-            <button className="checkout-btn" onClick={handleCheckout}>
+            <button className="checkout-btn" onClick={handlePlaceOrder}>
               Proceed to Checkout
             </button>
           </div>
