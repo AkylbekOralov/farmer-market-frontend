@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import AuthContext from "../../context/AuthContext";
+import "../../Styles/Buyer/OrderDetails.css";
 
 const OrderDetails = () => {
   const { orderId } = useParams(); // Get the order ID from the URL
   const [order, setOrder] = useState(null);
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -31,8 +34,42 @@ const OrderDetails = () => {
     return <p>Loading order details...</p>;
   }
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
-    <div>
+    <div className="order">
+      <div className="header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
+          alt="Farm Icon"
+          className="main-logo"
+        />
+        <div className="right-section">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+            alt="Mail Icon"
+            className="mail-icon"
+          />
+          <button
+            className="account-button"
+            onClick={() => navigate("/buyer-account")}
+          >
+            My account
+          </button>
+          <button
+            className="account-button"
+            onClick={() => navigate("/buyer-main")}
+          >
+            Main
+          </button>
+          <button className="logout-button" onClick={handleLogout}>
+            Log out
+          </button>
+        </div>
+      </div>
       <h2>Order Details</h2>
       <p>Order ID: {order.id}</p>
       <p>Status: {order.status}</p>

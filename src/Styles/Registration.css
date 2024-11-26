@@ -69,9 +69,7 @@ form {
 /* General input styling for uniform appearance across all fields */
 /* General styling for text-based input fields */
 input[name="delivery_address"],
-
 input[name="farm_size"],
-
 input[type="email"],
 input[type="tel"],
 input[name="username"],
@@ -83,12 +81,12 @@ input[name="expire_date"],
 input[name="owner_name"],
 input[name="cvc"],
 input[name="farm_address"],
-input[type="password"] 
- {
+input[type="password"],
+input[type="text"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc; /* Consistent border color and style */
-  border-radius: 8px; 
+  border-radius: 8px;
   font-size: 16px;
   box-sizing: border-box;
   outline: none; /* Removes default browser outline */
@@ -107,7 +105,7 @@ input[type="password"]
 
 /* Focus styling for consistency */
 .password-input:focus {
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
 }
 
@@ -132,13 +130,11 @@ input[name="owner_name"] :focus,
 input[name="cvc"] :focus,
 input[name="farmAddress"] :focus,
 input[name="farmSize"] :focus,
-input[name="password"]:focus
-{ 
-  border-color: #4CAF50; /* Adds a green border on focus */
+input[name="password"]:focus {
+  border-color: #4caf50; /* Adds a green border on focus */
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5); /* Subtle shadow effect */
 }
 /* General styling for password field */
-
 
 /* General styling for password field */
 .password-input {

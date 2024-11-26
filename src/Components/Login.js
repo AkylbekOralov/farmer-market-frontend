@@ -40,6 +40,8 @@ const Login = () => {
           navigate("/farmer-main");
         } else if (data.role === "buyer") {
           navigate("/buyer-main");
+        } else if (data.role === "admin") {
+          navigate("/admin-main");
         } else {
           setError("Unauthorized role for this application.");
         }
@@ -65,7 +67,7 @@ const Login = () => {
       </div>
       <form onSubmit={handleSubmit}>
         <input
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
           value={formData.email}

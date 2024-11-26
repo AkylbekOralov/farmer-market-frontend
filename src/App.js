@@ -26,6 +26,11 @@ import Cart from "./Components/Buyer/Cart";
 import BuyerOrder from "./Components/Buyer/Order";
 import OrderDetails from "./Components/Buyer/OrderDetails";
 
+// Admin
+import AdminMain from "./Components/Admin/AdminMain";
+import FarmersList from "./Components/Admin/FarmersList";
+import Category from "./Components/Admin/Category";
+
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
 
@@ -55,7 +60,7 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* Protected Routes */}
+        {/* Farmer Routes */}
         <Route
           path="/farmer-main"
           element={
@@ -120,7 +125,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        // For Buyers
+        {/* Buyer Routes */}
         <Route
           path="/buyer-main"
           element={
@@ -158,6 +163,31 @@ const App = () => {
           element={
             <ProtectedRoute role="buyer">
               <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        {/* Admin Routes */}
+        <Route
+          path="/admin-main"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminMain />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/farmers-list"
+          element={
+            <ProtectedRoute role="admin">
+              <FarmersList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/category-control"
+          element={
+            <ProtectedRoute role="admin">
+              <Category />
             </ProtectedRoute>
           }
         />
