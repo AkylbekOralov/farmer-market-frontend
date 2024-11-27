@@ -63,7 +63,6 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f9f9f9;
   font-family: Arial, sans-serif;
   gap: 20px;
 }

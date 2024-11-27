@@ -1,6 +1,8 @@
 // Components/Admin/Category.js
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../../Styles/Admin/Category.css";
 
 const Category = () => {
@@ -8,6 +10,14 @@ const Category = () => {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [editCategoryId, setEditCategoryId] = useState(null);
   const [editCategoryName, setEditCategoryName] = useState("");
+
+  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -80,6 +90,24 @@ const Category = () => {
 
   return (
     <div className="category-container">
+      <div className="header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
+          alt="Farm Icon"
+          className="main-logo"
+        />
+        <div className="right-section">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+            alt="Mail Icon"
+            className="mail-icon"
+          />
+          <button onClick={() => navigate("/admin-main")}>Main</button>
+          <button className="logout-button" onClick={handleLogout}>
+            Log out
+          </button>
+        </div>
+      </div>
       <h2>Manage Categories</h2>
       <div className="add-category">
         <input

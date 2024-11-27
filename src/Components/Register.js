@@ -106,9 +106,6 @@ const FarmerRegister = () => {
 
   return (
     <div className="container">
-      <h1>Farmer Registration</h1>
-      {errors && <p className="error-message">{errors}</p>}
-      {success && <p className="success-message">Registration successful!</p>}
       <form onSubmit={handleSubmit}>
         <input
           name="username"
@@ -182,28 +179,29 @@ const FarmerRegister = () => {
           value={formData.iin}
           onChange={handleChange}
         />
-        <div>
+
+        <input
+          name="password"
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <div className="show-pass">
           <input
-            name="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            required
-            value={formData.password}
-            onChange={handleChange}
+            type="checkbox"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
           />
-          <label>
-            <input
-              type="checkbox"
-              checked={showPassword}
-              onChange={() => setShowPassword(!showPassword)}
-            />
-            Show Password
-          </label>
+          Show Password
         </div>
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
       </form>
+      {errors && <p className="error-message">{errors}</p>}
+      {success && <p className="success-message">Registration successful!</p>}
     </div>
   );
 };
@@ -280,9 +278,6 @@ const BuyerRegister = () => {
 
   return (
     <div className="container">
-      <h1>Buyer Registration</h1>
-      {errors && <p className="error-message">{errors}</p>}
-      {success && <p className="success-message">Registration successful!</p>}
       <form onSubmit={handleSubmit}>
         <input
           name="username"
@@ -342,28 +337,30 @@ const BuyerRegister = () => {
           value={formData.cvc}
           onChange={handleChange}
         />
-        <div>
+
+        <input
+          name="password"
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <div className="show-pass">
           <input
-            name="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            required
-            value={formData.password}
-            onChange={handleChange}
+            type="checkbox"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
           />
-          <label>
-            <input
-              type="checkbox"
-              checked={showPassword}
-              onChange={() => setShowPassword(!showPassword)}
-            />
-            Show Password
-          </label>
+          Show Password
         </div>
+
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
       </form>
+      {errors && <p className="error-message">{errors}</p>}
+      {success && <p className="success-message">Registration successful!</p>}
     </div>
   );
 };
@@ -375,7 +372,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className="reg">
       <div className="icon-wrapper">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
@@ -408,7 +405,11 @@ const Register = () => {
       <div className="btn reg-btn" onClick={() => navigate("/")}>
         Login
       </div>
-    </>
+
+      <div className="admin-reg" onClick={() => navigate("/admin-reg")}>
+        If you are an admin. Here is the registration page for admin
+      </div>
+    </div>
   );
 };
 

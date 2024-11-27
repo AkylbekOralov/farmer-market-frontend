@@ -1,11 +1,19 @@
-// Components/Admin/FarmersList.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../../Styles/Admin/FarmersList.css";
 
 const FarmersList = () => {
   const [farmers, setFarmers] = useState([]);
+  const [loadingIds, setLoadingIds] = useState([]); // State to track which farmers are being verified
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchFarmers = async () => {
@@ -27,6 +35,7 @@ const FarmersList = () => {
   }, []);
 
   const handleVerify = async (id) => {
+    setLoadingIds((prev) => [...prev, id]); // Add ID to loading list
     try {
       const token = localStorage.getItem("token");
       await axios.put(
@@ -37,17 +46,37 @@ const FarmersList = () => {
         }
       );
 
-      // Refresh the farmers list after verification
+      // Remove the verified farmer from the list
       setFarmers((prevFarmers) =>
         prevFarmers.filter((farmer) => farmer.id !== id)
       );
     } catch (error) {
       console.error("Error verifying farmer:", error);
+    } finally {
+      setLoadingIds((prev) => prev.filter((loadingId) => loadingId !== id)); // Remove ID from loading list
     }
   };
 
   return (
-    <div>
+    <div className="farmer-list">
+      <div className="header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
+          alt="Farm Icon"
+          className="main-logo"
+        />
+        <div className="right-section">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+            alt="Mail Icon"
+            className="mail-icon"
+          />
+          <button onClick={() => navigate("/admin-main")}>Main</button>
+          <button className="logout-button" onClick={handleLogout}>
+            Log out
+          </button>
+        </div>
+      </div>
       <h2>Unverified Farmers</h2>
       {farmers.length === 0 ? (
         <p>No unverified farmers available.</p>
@@ -71,12 +100,21 @@ const FarmersList = () => {
               ) : (
                 <p>No Farmers Profile available.</p>
               )}
-              <button onClick={() => handleVerify(farmer.id)}>Verify</button>
+              <button
+                className="verify"
+                onClick={() => handleVerify(farmer.id)}
+                disabled={loadingIds.includes(farmer.id)} // Disable button if loading
+              >
+                {loadingIds.includes(farmer.id) ? (
+                  <span className="loader"></span>
+                ) : (
+                  "Verify"
+                )}
+              </button>
             </li>
           ))}
         </ul>
       )}
-      <button onClick={() => navigate("/admin-main")}>Back to Main</button>
     </div>
   );
 };

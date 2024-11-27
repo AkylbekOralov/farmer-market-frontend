@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container login">
       <div className="login-header">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"

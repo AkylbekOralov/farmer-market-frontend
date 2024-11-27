@@ -4,25 +4,26 @@
   padding: 20px;
 }
 
-h2 {
+.category-container h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-top: 120px;
 }
 
-.add-category {
+.category-container .add-category {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.add-category input {
+.category-container .add-category input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.add-category button {
+.category-container .add-category button {
   padding: 10px 15px;
   border: none;
   background-color: #28a745;
@@ -31,29 +32,28 @@ h2 {
   cursor: pointer;
 }
 
-.add-category button:hover {
+.category-container .add-category button:hover {
   background-color: #218838;
 }
 
-.category-list {
+.category-container .category-list {
   border-top: 1px solid #ccc;
   padding-top: 10px;
 }
 
-.category-item {
+.category-container .category-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
 }
 
-.category-item p {
+.category-container .category-item p {
   margin: 0;
   font-size: 16px;
 }
 
-.category-item button {
+.category-container .category-item button {
   margin-left: 10px;
   padding: 5px 10px;
   border: none;
@@ -61,11 +61,11 @@ h2 {
   cursor: pointer;
 }
 
-.category-item button:hover {
+.category-container .category-item button:hover {
   opacity: 0.9;
 }
 
-.category-item .edit-category input {
+.category-container .category-item .edit-category input {
   padding: 5px;
   margin-right: 10px;
   flex: 1;

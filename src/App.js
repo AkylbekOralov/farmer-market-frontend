@@ -8,6 +8,7 @@ import {
 import AuthContext from "./context/AuthContext";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
+import AdminReg from "./Components/AdminReg";
 
 //Farmer
 import FarmerMain from "./Components/Farmer/FarmerMain";
@@ -60,6 +61,7 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin-reg" element={<AdminReg />} />
         {/* Farmer Routes */}
         <Route
           path="/farmer-main"
