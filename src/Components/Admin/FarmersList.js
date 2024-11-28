@@ -59,7 +59,7 @@ const FarmersList = () => {
 
   return (
     <div className="farmer-list">
-      <div className="header">
+      <div className="header admin">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -77,44 +77,46 @@ const FarmersList = () => {
           </button>
         </div>
       </div>
-      <h2>Unverified Farmers</h2>
-      {farmers.length === 0 ? (
-        <p>No unverified farmers available.</p>
-      ) : (
-        <ul>
-          {farmers.map((farmer) => (
-            <li key={farmer.id}>
-              <p>Username: {farmer.username}</p>
-              <p>Email: {farmer.email}</p>
-              <p>Phone: {farmer.phone}</p>
-              {farmer.FarmersProfile ? (
-                <>
-                  <p>Farm Address: {farmer.FarmersProfile.farm_address}</p>
-                  <p>Farm Size: {farmer.FarmersProfile.farm_size}</p>
-                  <p>
-                    Types of Crops:{" "}
-                    {farmer.FarmersProfile.types_of_crops?.join(", ")}
-                  </p>
-                  <p>IIN: {farmer.FarmersProfile.iin}</p>
-                </>
-              ) : (
-                <p>No Farmers Profile available.</p>
-              )}
-              <button
-                className="verify"
-                onClick={() => handleVerify(farmer.id)}
-                disabled={loadingIds.includes(farmer.id)} // Disable button if loading
-              >
-                {loadingIds.includes(farmer.id) ? (
-                  <span className="loader"></span>
+      <div className="listsss">
+        <h2>Unverified Farmers</h2>
+        {farmers.length === 0 ? (
+          <p>No unverified farmers available.</p>
+        ) : (
+          <ul>
+            {farmers.map((farmer) => (
+              <li key={farmer.id}>
+                <p>Username: {farmer.username}</p>
+                <p>Email: {farmer.email}</p>
+                <p>Phone: {farmer.phone}</p>
+                {farmer.FarmersProfile ? (
+                  <>
+                    <p>Farm Address: {farmer.FarmersProfile.farm_address}</p>
+                    <p>Farm Size: {farmer.FarmersProfile.farm_size}</p>
+                    <p>
+                      Types of Crops:{" "}
+                      {farmer.FarmersProfile.types_of_crops?.join(", ")}
+                    </p>
+                    <p>IIN: {farmer.FarmersProfile.iin}</p>
+                  </>
                 ) : (
-                  "Verify"
+                  <p>No Farmers Profile available.</p>
                 )}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+                <button
+                  className="verify"
+                  onClick={() => handleVerify(farmer.id)}
+                  disabled={loadingIds.includes(farmer.id)} // Disable button if loading
+                >
+                  {loadingIds.includes(farmer.id) ? (
+                    <span className="loader"></span>
+                  ) : (
+                    "Verify"
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

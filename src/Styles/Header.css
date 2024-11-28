@@ -1,0 +1,78 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  position: relative; /* Makes the header stick to the top of the screen */
+  top: 20px;
+  left: 0;
+  width: 100%; /* Full viewport width */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000; /* Ensures it stays above other elements */
+}
+
+.header .main-logo {
+  width: 56px;
+  height: auto;
+  margin-left: 35px;
+}
+
+.header .right-section {
+  display: flex;
+  gap: 25px;
+  margin-right: 40px;
+}
+
+.header .mail-icon {
+  cursor: pointer;
+  width: 34px;
+  height: auto;
+}
+
+.header .right-section button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px 26px;
+}
+
+.header .right-section button:hover {
+  background-color: #45a049;
+}
+
+.header.admin .right-section button {
+  background-color: #007bff;
+}
+
+.header.admin .right-section button:hover {
+  background-color: #0056b3;
+}
+
+.header.buyer .right-section button {
+  background-color: #ce9730;
+}
+
+.header.buyer .right-section button:hover {
+  background-color: #b88527;
+}
+
+/*.account-button, .logout-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.account-button:hover, .logout-button:hover {
+  background-color: #0056b3;
+} */

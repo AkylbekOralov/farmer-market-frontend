@@ -40,7 +40,7 @@ const Orders = () => {
 
   return (
     <div className="order">
-      <div className="header">
+      <div className="header buyer">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -69,23 +69,25 @@ const Orders = () => {
           </button>
         </div>
       </div>
-      <h2>Your Orders</h2>
-      {orders.length === 0 ? (
-        <p>No orders found.</p>
-      ) : (
-        <ul>
-          {orders.map((order) => (
-            <li key={order.id} onClick={() => handleOrderClick(order.id)}>
-              <p>Order ID: {order.id}</p>
-              <p>Status: {order.status}</p>
-              <p>Total Amount: ${order.total_amount}</p>
-              <p>
-                Order Date: {new Date(order.created_at).toLocaleDateString()}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="ordersss">
+        <h2>Your Orders</h2>
+        {orders.length === 0 ? (
+          <p>No orders found.</p>
+        ) : (
+          <ul>
+            {orders.map((order) => (
+              <li key={order.id} onClick={() => handleOrderClick(order.id)}>
+                <p>Order ID: {order.id}</p>
+                <p>Status: {order.status}</p>
+                <p>Total Amount: ${order.total_amount}</p>
+                <p>
+                  Order Date: {new Date(order.created_at).toLocaleDateString()}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

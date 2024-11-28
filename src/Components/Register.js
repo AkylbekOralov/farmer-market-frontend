@@ -6,6 +6,7 @@ import "../Styles/Registration.css";
 
 // Farmer Registration Form
 const FarmerRegister = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -66,6 +67,12 @@ const FarmerRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading) {
+      // If already loading, do nothing
+      return;
+    }
+
     setErrors("");
     setLoading(true);
     setSuccess(false);
@@ -93,6 +100,7 @@ const FarmerRegister = () => {
           iin: "",
           password: "",
         });
+        setShowCropOptions(false);
         setSuccess(true);
       } else {
         setErrors(data.message || "Registration failed. Please try again.");
@@ -197,17 +205,34 @@ const FarmerRegister = () => {
           Show Password
         </div>
         <button type="submit" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
+          {loading ? <span className="loader"></span> : "Register"}
         </button>
       </form>
-      {errors && <p className="error-message">{errors}</p>}
-      {success && <p className="success-message">Registration successful!</p>}
+      {errors && <p className="error-message">{errors}!</p>}
+      {success && (
+        <div className="success-overlay">
+          <div className="success-message">
+            <p>
+              Registration successful!
+              <br />
+              <br />
+              <span>
+                An email has been sent to your address for validation. Please
+                confirm your email. After that, an admin will verify your
+                profile. This process may take up to 2-3 days.
+              </span>
+            </p>
+            <button onClick={() => navigate("/")}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 // Buyer Registration Form
 const BuyerRegister = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -237,6 +262,12 @@ const BuyerRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading) {
+      // If already loading, do nothing
+      return;
+    }
+
     setErrors("");
     setLoading(true);
     setSuccess(false);
@@ -317,26 +348,28 @@ const BuyerRegister = () => {
           onChange={handleChange}
         />
         <input
-          name="expire_date"
-          placeholder="Expiry Date (YYYY-MM-DD)"
-          required
-          value={formData.expire_date}
-          onChange={handleChange}
-        />
-        <input
           name="owner_name"
           placeholder="Cardholder Name"
           required
           value={formData.owner_name}
           onChange={handleChange}
         />
-        <input
-          name="cvc"
-          placeholder="CVC"
-          required
-          value={formData.cvc}
-          onChange={handleChange}
-        />
+        <div className="card-info">
+          <input
+            name="expire_date"
+            placeholder="Expiry Date (YYYY-MM-DD)"
+            required
+            value={formData.expire_date}
+            onChange={handleChange}
+          />
+          <input
+            name="cvc"
+            placeholder="CVC"
+            required
+            value={formData.cvc}
+            onChange={handleChange}
+          />
+        </div>
 
         <input
           name="password"
@@ -356,11 +389,27 @@ const BuyerRegister = () => {
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
+          {loading ? <span className="loader"></span> : "Register"}
         </button>
       </form>
-      {errors && <p className="error-message">{errors}</p>}
-      {success && <p className="success-message">Registration successful!</p>}
+      {errors && <p className="error-message">{errors}!</p>}
+      {success && (
+        <div className="success-overlay">
+          <div className="success-message">
+            <p>
+              Registration successful!
+              <br />
+              <br />
+              <span>
+                An email has been sent to your address for validation. Please
+                confirm your email.
+              </span>
+            </p>
+
+            <button onClick={() => navigate("/")}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -402,8 +451,8 @@ const Register = () => {
         <FarmerRegister></FarmerRegister>
       )}
 
-      <div className="btn reg-btn" onClick={() => navigate("/")}>
-        Login
+      <div className="btn log-btn" onClick={() => navigate("/")}>
+        Already have an account? Log in
       </div>
 
       <div className="admin-reg" onClick={() => navigate("/admin-reg")}>

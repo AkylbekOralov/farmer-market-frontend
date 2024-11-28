@@ -67,78 +67,80 @@ const Inventory = () => {
         </div>
       </div>
 
-      <h1 className="page-title-container">
-        <span className="page-title">Inventory</span>
-      </h1>
+      <div className="inven">
+        <h1 className="page-title-container">
+          <span className="page-title">Inventory</span>
+        </h1>
 
-      <div className="search-filters">
-        <input
-          type="text"
-          placeholder="Search by Name"
-          className="search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <select
-          className="category-filter"
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div className="search-filters">
+          <input
+            type="text"
+            placeholder="Search by Name"
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <select
+            className="category-filter"
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Inventory</th>
-            <th>Category</th>
-            <th>Quantity</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.category_name}</td>
-              <td>
-                {item.quantity} {item.unit_of_measure}
-              </td>
-              <td>
-                <span
-                  className={`status ${
-                    item.inventory_status === "In Stock"
-                      ? "in-stock"
-                      : "out-of-stock"
-                  }`}
-                >
-                  {item.inventory_status}
-                </span>
-              </td>
-              <td>
-                <button
-                  className="edit-button"
-                  onClick={() =>
-                    navigate(`/inventory/edit/${item.id}`, {
-                      state: { quantity: item.quantity },
-                    })
-                  }
-                >
-                  Edit
-                </button>
-              </td>
+        <table className="inventory-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Inventory</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.category_name}</td>
+                <td>
+                  {item.quantity} {item.unit_of_measure}
+                </td>
+                <td>
+                  <span
+                    className={`status ${
+                      item.inventory_status === "In Stock"
+                        ? "in-stock"
+                        : "out-of-stock"
+                    }`}
+                  >
+                    {item.inventory_status}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    className="edit-button"
+                    onClick={() =>
+                      navigate(`/inventory/edit/${item.id}`, {
+                        state: { quantity: item.quantity },
+                      })
+                    }
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

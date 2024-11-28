@@ -1,29 +1,30 @@
 .category-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
 }
 
-.category-container h2 {
+.category-container .categoriesss {
+  padding: 50px;
+}
+
+.category-container .categoriesss h2 {
   text-align: center;
   margin-bottom: 30px;
-  margin-top: 120px;
+  margin-top: 0;
 }
 
-.category-container .add-category {
+.category-container .categoriesss .add-category {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.category-container .add-category input {
+.category-container .categoriesss .add-category input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.category-container .add-category button {
+.category-container .categoriesss button {
   padding: 10px 15px;
   border: none;
   background-color: #28a745;
@@ -32,28 +33,28 @@
   cursor: pointer;
 }
 
-.category-container .add-category button:hover {
+.category-container .categoriesss button:hover {
   background-color: #218838;
 }
 
-.category-container .category-list {
+.category-container .categoriesss .category-list {
   border-top: 1px solid #ccc;
   padding-top: 10px;
 }
 
-.category-container .category-item {
+.category-container .categoriesss .category-item {
   display: flex;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
 }
 
-.category-container .category-item p {
+.category-container .categoriesss .category-item p {
   margin: 0;
   font-size: 16px;
 }
 
-.category-container .category-item button {
+.category-container .categoriesss .category-item button {
   margin-left: 10px;
   padding: 5px 10px;
   border: none;
@@ -61,11 +62,11 @@
   cursor: pointer;
 }
 
-.category-container .category-item button:hover {
+.category-container .categoriesss .category-item button:hover {
   opacity: 0.9;
 }
 
-.category-container .category-item .edit-category input {
+.category-container .categoriesss .category-item .edit-category input {
   padding: 5px;
   margin-right: 10px;
   flex: 1;

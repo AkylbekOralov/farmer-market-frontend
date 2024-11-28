@@ -14,8 +14,8 @@ const AdminMain = () => {
   };
 
   return (
-    <div className="admin-main">
-      <div className="header">
+    <div className="admin admin-main">
+      <div className="header admin">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -33,13 +33,15 @@ const AdminMain = () => {
         </div>
       </div>
 
-      <button onClick={() => navigate("/farmers-list")}>
-        Unverified farmers list
-      </button>
+      <div className="adminsss">
+        <button onClick={() => navigate("/farmers-list")}>
+          Unverified farmers list
+        </button>
 
-      <button onClick={() => navigate("/category-control")}>
-        Category Control
-      </button>
+        <button onClick={() => navigate("/category-control")}>
+          Category Control
+        </button>
+      </div>
     </div>
   );
 };

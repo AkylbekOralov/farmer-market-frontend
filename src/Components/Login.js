@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import "../Styles/Login.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading) {
+      // If already loading, do nothing
+      return;
+    }
+
     setError("");
     setLoading(true);
 
@@ -83,9 +90,9 @@ const Login = () => {
           required
         />
         <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? <span className="loader"></span> : "Login"}
         </button>
-        {error && <p>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
       </form>
       <div className="btn reg-btn" onClick={() => navigate("/register")}>
         Don't you have an account? <span>Sign up</span>

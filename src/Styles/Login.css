@@ -1,32 +1,35 @@
-.container {
+.container.login {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding-top: 100px;
 }
-.icon-wrapper img {
+
+.login .icon-wrapper img {
   width: 100px;
 }
-.login-header {
+
+.login .login-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.farm-icon {
+.login .farm-icon {
   width: 80px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.title {
+.login .title {
   font-size: 24px;
   text-align: center;
   margin: 0;
 }
 
-form {
+.login form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,8 +43,7 @@ form {
 }
 
 /* Input styling */
-input[name="email"],
-input[type="password"] {
+.login input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -52,19 +54,18 @@ input[type="password"] {
   margin: 5px 0;
 }
 
-input::placeholder {
+.login input::placeholder {
   color: #bbb;
 }
 
 /* Focus styling */
-input[name="nameOrPass"]:focus,
-input[type="password"]:focus {
+.login input:focus {
   border-color: #353e35;
   box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
 }
 
 /* Checkbox and label styling */
-label {
+.login label {
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -74,7 +75,7 @@ label {
 }
 
 /* Button styling */
-button {
+.login button {
   background-color: #4caf50;
   color: white;
   padding: 10px 0;
@@ -85,12 +86,12 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.login button:hover {
   background-color: #45a049;
 }
 
 /* Registration button for navigation */
-.reg-btn {
+.login .reg-btn {
   color: green;
   text-decoration: underline;
   text-align: center;
@@ -100,28 +101,60 @@ button:hover {
 }
 
 /* Error message styling */
-.error-message {
-  color: red;
-  font-size: 14px;
-  text-align: center;
+.login .error-message {
+  color: #eb5050; /* Bright red for visibility */
+  margin-top: 15px; /* Add some space from the element above */
+  font-size: 14px; /* Readable font size */
+  font-weight: bold; /* Bold text for importance */
+  text-align: center; /* Center the text */
 }
 
-.forgot-password {
+.login .forgot-password {
   color: green;
   cursor: pointer;
   text-align: center;
   margin-top: 10px;
 }
-.reg-btn {
+
+.login .reg-btn {
   color: green;
   cursor: pointer;
   text-align: center;
   margin-top: 20px;
 }
 
-.divider-line {
+.login .divider-line {
   border: none;
   border-top: 1px solid #ccc; /* Gray line */
   margin: 0; /* Space around the line */
   width: 100%; /* Full width */
+}
+
+/* Loader styles */
+.loader {
+  border: 4px solid #f3f3f3; /* Light gray */
+  border-top: 3px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+/* Keyframes for spinning animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Login button styling */
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }

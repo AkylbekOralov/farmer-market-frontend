@@ -2,30 +2,28 @@
   font-family: "Arial", sans-serif;
   text-align: center;
   margin: 0 auto;
-  padding: 80px;
-  max-width: 1200px;
 }
 
-.buyer-main-container h1 {
+.buyer-main-container .mainsss h1 {
   font-size: 2.5rem;
   color: #333;
   margin-bottom: 20px;
 }
 
-.buyer-main-container h2 {
+.buyer-main-container .mainsss h2 {
   font-size: 2rem;
   color: #555;
   margin-bottom: 15px;
 }
 
-.products-grid {
+.buyer-main-container .mainsss .products-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
 }
 
-.product-card {
+.buyer-main-container .mainsss .product-card {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -35,32 +33,32 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.quantity-controls button.quantity-btn {
+.buyer-main-container .mainsss .quantity-controls button.quantity-btn {
   padding: 0;
   width: 27px;
   height: 27px;
 }
 
-.product-card img {
+.buyer-main-container .mainsss .product-card img {
   width: 100%;
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
 }
 
-.product-card h3 {
+.buyer-main-container .mainsss .product-card h3 {
   font-size: 1.25rem;
   color: #333;
   margin-bottom: 10px;
 }
 
-.product-card p {
+.buyer-main-container .mainsss .product-card p {
   font-size: 1rem;
   color: #666;
   margin: 5px 0;
 }
 
-.product-card button {
+.buyer-main-container .mainsss .product-card button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -71,32 +69,32 @@
   transition: background-color 0.3s;
 }
 
-.product-card button:hover {
+.buyer-main-container .mainsss .product-card button:hover {
   background-color: #0056b3;
 }
 
 /* Carousel Styles */
-.carousel-container {
+.buyer-main-container .mainsss .carousel-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
 }
 
-.carousel-header {
+.buyer-main-container .mainsss .carousel-header {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
-.carousel {
+.buyer-main-container .mainsss .carousel {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
 }
 
-.carousel img {
+.buyer-main-container .mainsss .carousel img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -104,24 +102,24 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.carousel .arrow {
+.buyer-main-container .mainsss .carousel .arrow {
   cursor: pointer;
   font-size: 2rem;
   color: #333;
   user-select: none;
 }
 
-.carousel .arrow:hover {
+.buyer-main-container .mainsss .carousel .arrow:hover {
   color: #007bff;
 }
 
-.carousel-buttons {
+.buyer-main-container .mainsss .carousel-buttons {
   display: flex;
   gap: 10px;
   margin-top: 15px;
 }
 
-.carousel-buttons button {
+.buyer-main-container .mainsss .carousel-buttons button {
   background-color: #ddd;
   border: none;
   padding: 10px 20px;
@@ -131,11 +129,11 @@
   transition: background-color 0.3s;
 }
 
-.carousel-buttons button:hover {
+.buyer-main-container .mainsss .carousel-buttons button:hover {
   background-color: #bbb;
 }
 
-.categories-grid {
+.buyer-main-container .mainsss .categories-grid {
   width: 500px;
   display: flex;
   flex-wrap: wrap;
@@ -145,7 +143,7 @@
   margin-top: 30px;
 }
 
-.category-card {
+.buyer-main-container .mainsss .category-card {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -157,30 +155,30 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.category-card h3 {
+.buyer-main-container .mainsss .category-card h3 {
   margin-bottom: 0;
 }
 
-.category-card:hover {
+.buyer-main-container .mainsss .category-card:hover {
   transform: scale(1.05);
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-.category-image {
+.buyer-main-container .mainsss .category-image {
   width: 100%;
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
 }
 
-.recommendation-grid {
+.buyer-main-container .mainsss .recommendation-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
 }
 
-.recommendation-card {
+.buyer-main-container .mainsss .recommendation-card {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -190,7 +188,7 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.recommendation-image {
+.buyer-main-container .mainsss .recommendation-image {
   width: 100px;
   height: 100px;
   object-fit: cover;

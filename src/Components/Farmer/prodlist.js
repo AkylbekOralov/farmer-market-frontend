@@ -122,136 +122,139 @@ const ProdList = () => {
           </button>
         </div>
       </div>
+      <div className="prod-listing">
+        <div className="title-add-button">
+          <h1 className="product-list-title">Product listing</h1>
+          <button
+            className="add-product-button"
+            onClick={() => navigate("/add-product")}
+          >
+            Add New Product
+          </button>
+        </div>
 
-      <div className="title-add-button">
-        <h1 className="product-list-title">Product listing</h1>
-        <button
-          className="add-product-button"
-          onClick={() => navigate("/add-product")}
-        >
-          Add New Product
-        </button>
-      </div>
+        <div className="search-filters">
+          {/* Search Bar */}
+          <input
+            type="text"
+            placeholder="Quick search"
+            className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
-      <div className="search-filters">
-        {/* Search Bar */}
-        <input
-          type="text"
-          placeholder="Quick search"
-          className="search-input"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+          {/* Category Filter */}
+          <select
+            className="category-filter"
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        {/* Category Filter */}
-        <select
-          className="category-filter"
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="product-grid">
-        {filteredProducts.map((product) => (
-          <div className="product-card" key={product.id}>
-            <div className="image-slider">
-              {product.images && product.images.length > 0 ? (
-                <>
-                  <img
-                    src={`http://localhost:8383/${
-                      product.images[currentImageIndexes[product.id]]
-                    }`}
-                    alt={product.name}
-                    className="product-image"
-                  />
-                  <div className="image-controller">
-                    <button
-                      className="prev-image-button"
-                      onClick={() => handlePreviousImage(product.id)}
-                    >
-                      &lt;
-                    </button>
-                    <div className="image-indicators">
-                      {product.images.map((_, index) => (
-                        <span
-                          key={index}
-                          className={`indicator ${
-                            currentImageIndexes[product.id] === index
-                              ? "active"
-                              : ""
-                          }`}
-                        >
-                          ●
-                        </span>
-                      ))}
+        <div className="product-grid">
+          {filteredProducts.map((product) => (
+            <div className="product-card" key={product.id}>
+              <div className="image-slider">
+                {product.images && product.images.length > 0 ? (
+                  <>
+                    <img
+                      src={`http://localhost:8383/${
+                        product.images[currentImageIndexes[product.id]]
+                      }`}
+                      alt={product.name}
+                      className="product-image"
+                    />
+                    <div className="image-controller">
+                      <button
+                        className="prev-image-button"
+                        onClick={() => handlePreviousImage(product.id)}
+                      >
+                        &lt;
+                      </button>
+                      <div className="image-indicators">
+                        {product.images.map((_, index) => (
+                          <span
+                            key={index}
+                            className={`indicator ${
+                              currentImageIndexes[product.id] === index
+                                ? "active"
+                                : ""
+                            }`}
+                          >
+                            ●
+                          </span>
+                        ))}
+                      </div>
+                      <button
+                        className="next-image-button"
+                        onClick={() => handleNextImage(product.id)}
+                      >
+                        &gt;
+                      </button>
                     </div>
-                    <button
-                      className="next-image-button"
-                      onClick={() => handleNextImage(product.id)}
-                    >
-                      &gt;
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <p>No images available</p>
-              )}
-            </div>
-            <div className="product-info">
-              <h2 className="product-name">{product.name}</h2>
-              <p className="product-price">
-                ${product.price} / {product.unit_of_measure}
-              </p>
-              <p className="product-category_name">{product.category_name}</p>
-              <p className="product-quantity">
-                {product.quantity} {product.unit_of_measure}
-              </p>
-              <p className="product-status">{product.inventory_status}</p>
-              <button
-                className="edit-button"
-                onClick={() => navigate(`/edit-product/${product.id}`)}
-              >
-                Edit
-              </button>
+                  </>
+                ) : (
+                  <p>No images available</p>
+                )}
+              </div>
+              <div className="product-info">
+                <h2 className="product-name">{product.name}</h2>
+                <p className="product-price">
+                  ${product.price} / {product.unit_of_measure}
+                </p>
+                <p className="product-category_name">{product.category_name}</p>
+                <p className="product-quantity">
+                  {product.quantity} {product.unit_of_measure}
+                </p>
+                <p className="product-status">{product.inventory_status}</p>
+                <button
+                  className="edit-button"
+                  onClick={() => navigate(`/edit-product/${product.id}`)}
+                >
+                  Edit
+                </button>
 
-              <button
-                className="delete-button"
-                onClick={async () => {
-                  const confirmDelete = window.confirm(
-                    "Are you sure you want to delete this product?"
-                  );
-                  if (confirmDelete) {
-                    try {
-                      const token = localStorage.getItem("token");
-                      await axios.delete(
-                        `http://localhost:8383/api/farmer/product/${product.id}`,
-                        {
-                          headers: { Authorization: `Bearer ${token}` },
-                        }
-                      );
-                      alert("Product deleted successfully");
-                      setProducts(products.filter((p) => p.id !== product.id)); // Remove deleted product from UI
-                    } catch (error) {
-                      console.error("Error deleting product:", error);
-                      alert("Failed to delete product");
+                <button
+                  className="delete-button"
+                  onClick={async () => {
+                    const confirmDelete = window.confirm(
+                      "Are you sure you want to delete this product?"
+                    );
+                    if (confirmDelete) {
+                      try {
+                        const token = localStorage.getItem("token");
+                        await axios.delete(
+                          `http://localhost:8383/api/farmer/product/${product.id}`,
+                          {
+                            headers: { Authorization: `Bearer ${token}` },
+                          }
+                        );
+                        alert("Product deleted successfully");
+                        setProducts(
+                          products.filter((p) => p.id !== product.id)
+                        ); // Remove deleted product from UI
+                      } catch (error) {
+                        console.error("Error deleting product:", error);
+                        alert("Failed to delete product");
+                      }
                     }
-                  }
-                }}
-              >
-                Delete
-              </button>
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div className="chat-button">Chat</div>
+        <div className="chat-button">Chat</div>
+      </div>
     </div>
   );
 };

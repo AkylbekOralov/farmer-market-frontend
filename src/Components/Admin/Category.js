@@ -90,7 +90,7 @@ const Category = () => {
 
   return (
     <div className="category-container">
-      <div className="header">
+      <div className="header admin">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -108,48 +108,52 @@ const Category = () => {
           </button>
         </div>
       </div>
-      <h2>Manage Categories</h2>
-      <div className="add-category">
-        <input
-          type="text"
-          value={newCategoryName}
-          onChange={(e) => setNewCategoryName(e.target.value)}
-          placeholder="New category name"
-        />
-        <button onClick={handleAddCategory}>Add Category</button>
-      </div>
-      <div className="category-list">
-        <h3>Category List</h3>
-        {categories.map((category) => (
-          <div key={category.id} className="category-item">
-            {editCategoryId === category.id ? (
-              <div className="edit-category">
-                <input
-                  type="text"
-                  value={editCategoryName}
-                  onChange={(e) => setEditCategoryName(e.target.value)}
-                />
-                <button onClick={handleEditCategory}>Save</button>
-                <button onClick={() => setEditCategoryId(null)}>Cancel</button>
-              </div>
-            ) : (
-              <>
-                <p>{category.name}</p>
-                <button
-                  onClick={() => {
-                    setEditCategoryId(category.id);
-                    setEditCategoryName(category.name);
-                  }}
-                >
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteCategory(category.id)}>
-                  Delete
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+      <div className="categoriesss">
+        <h2>Manage Categories</h2>
+        <div className="add-category">
+          <input
+            type="text"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            placeholder="New category name"
+          />
+          <button onClick={handleAddCategory}>Add Category</button>
+        </div>
+        <div className="category-list">
+          <h3>Category List</h3>
+          {categories.map((category) => (
+            <div key={category.id} className="category-item">
+              {editCategoryId === category.id ? (
+                <div className="edit-category">
+                  <input
+                    type="text"
+                    value={editCategoryName}
+                    onChange={(e) => setEditCategoryName(e.target.value)}
+                  />
+                  <button onClick={handleEditCategory}>Save</button>
+                  <button onClick={() => setEditCategoryId(null)}>
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p>{category.name}</p>
+                  <button
+                    onClick={() => {
+                      setEditCategoryId(category.id);
+                      setEditCategoryName(category.name);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button onClick={() => handleDeleteCategory(category.id)}>
+                    Delete
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

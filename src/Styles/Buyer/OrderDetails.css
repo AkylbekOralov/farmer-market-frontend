@@ -1,84 +1,36 @@
-/* General styles */
-.order body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
-}
-
-/* Header styling */
-.order .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #4caf50;
-  padding: 10px 20px;
-  color: white;
-  position: relative;
-}
-
-.order .main-logo {
-  height: 50px;
-}
-
-.order .right-section {
-  display: flex;
-  align-items: center;
-}
-
-.order .mail-icon {
-  height: 25px;
-  margin-right: 15px;
-  cursor: pointer;
-}
-
-.order .account-button,
-.order .logout-button {
-  background-color: white;
-  color: #4caf50;
-  border: none;
-  padding: 10px 15px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.order .account-button:hover,
-.order .logout-button:hover {
-  background-color: #e8f5e9;
-}
-
 /* Page heading */
-.order h2 {
+.ordersss {
+  padding: 50px;
+}
+
+.ordersss h2 {
   text-align: center;
   margin-top: 20px;
   color: #4caf50;
 }
 
 /* Order details */
-.order p {
+.ordersss p {
   color: #333;
   font-size: 16px;
   margin: 10px 0;
   padding: 0 20px;
 }
 
-.order h3 {
+.ordersss h3 {
   margin: 20px 0 10px 20px;
   color: #4caf50;
   font-size: 20px;
 }
 
 /* Order items list */
-.order ul {
+.ordersss ul {
   list-style-type: none;
   padding: 0;
   margin: 0 20px;
 }
 
-.order li {
+.ordersss li {
   display: flex;
   align-items: center;
   background-color: white;
@@ -90,24 +42,24 @@
   transition: all 0.3s ease-in-out;
 }
 
-.order li:hover {
+.ordersss li:hover {
   background-color: #f1f8e9;
 }
 
-.order li img {
+.ordersss li img {
   margin-right: 15px;
   border-radius: 5px;
   object-fit: cover;
 }
 
-.order li p {
+.ordersss li p {
   margin: 0;
   font-size: 14px;
   color: #555;
 }
 
 /* Back to orders button */
-.order button {
+.ordersss button {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
@@ -119,6 +71,6 @@
   cursor: pointer;
 }
 
-.order button:hover {
+.ordersss button:hover {
   background-color: #45a049;
 }

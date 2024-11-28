@@ -32,6 +32,8 @@ import AdminMain from "./Components/Admin/AdminMain";
 import FarmersList from "./Components/Admin/FarmersList";
 import Category from "./Components/Admin/Category";
 
+import "./Styles/Header.css";
+
 const ProtectedRoute = ({ children, role }) => {
   const { auth, isLoading } = useContext(AuthContext);
 

@@ -110,7 +110,7 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-      <div className="header">
+      <div className="header buyer">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -135,69 +135,71 @@ const Cart = () => {
         </div>
       </div>
 
-      <h2>Your Cart</h2>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty. Start shopping!</p>
-      ) : (
-        <>
-          <div className="cart-items">
-            {cartItems.map((item) => (
-              <div key={item.cart_id} className="cart-item">
-                <img
-                  src={`http://localhost:8383/${item.product.images[0]}`}
-                  alt={item.product.name}
-                  className="cart-item-image"
-                />
-                <div className="cart-item-details">
-                  <h3>{item.product.name}</h3>
-                  <p>Price: ${item.product.price}</p>
-                  <p>
-                    Total: ${(item.quantity * item.product.price).toFixed(2)}
-                  </p>
-                  <div className="quantity-controls">
+      <div className="cartsss">
+        <h2>Your Cart</h2>
+        {cartItems.length === 0 ? (
+          <p>Your cart is empty. Start shopping!</p>
+        ) : (
+          <>
+            <div className="cart-items">
+              {cartItems.map((item) => (
+                <div key={item.cart_id} className="cart-item">
+                  <img
+                    src={`http://localhost:8383/${item.product.images[0]}`}
+                    alt={item.product.name}
+                    className="cart-item-image"
+                  />
+                  <div className="cart-item-details">
+                    <h3>{item.product.name}</h3>
+                    <p>Price: ${item.product.price}</p>
+                    <p>
+                      Total: ${(item.quantity * item.product.price).toFixed(2)}
+                    </p>
+                    <div className="quantity-controls">
+                      <button
+                        className="quantity-btn"
+                        onClick={() =>
+                          handleQuantityChange(item.cart_id, "decrement")
+                        }
+                      >
+                        -
+                      </button>
+                      <span>
+                        {item.quantity} {item.product.unit_of_measure}
+                      </span>
+                      <button
+                        className="quantity-btn"
+                        onClick={() =>
+                          handleQuantityChange(item.cart_id, "increment")
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
                     <button
-                      className="quantity-btn"
-                      onClick={() =>
-                        handleQuantityChange(item.cart_id, "decrement")
-                      }
+                      className="remove-btn"
+                      onClick={() => handleRemoveItem(item.cart_id)}
                     >
-                      -
-                    </button>
-                    <span>
-                      {item.quantity} {item.product.unit_of_measure}
-                    </span>
-                    <button
-                      className="quantity-btn"
-                      onClick={() =>
-                        handleQuantityChange(item.cart_id, "increment")
-                      }
-                    >
-                      +
+                      Remove
                     </button>
                   </div>
-                  <button
-                    className="remove-btn"
-                    onClick={() => handleRemoveItem(item.cart_id)}
-                  >
-                    Remove
-                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* Total cost section */}
-          <div className="cart-summary">
-            <h3>Total Cost: ${calculateTotalCost()}</h3>
-          </div>
+            {/* Total cost section */}
+            <div className="cart-summary">
+              <h3>Total Cost: ${calculateTotalCost()}</h3>
+            </div>
 
-          <div className="cart-footer">
-            <button className="checkout-btn" onClick={handlePlaceOrder}>
-              Proceed to Checkout
-            </button>
-          </div>
-        </>
-      )}
+            <div className="cart-footer">
+              <button className="checkout-btn" onClick={handlePlaceOrder}>
+                Proceed to Checkout
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

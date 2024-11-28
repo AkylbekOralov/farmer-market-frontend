@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../Styles/AdminReg.css";
+import "../Styles/Registration.css"; // Use the same stylesheet
 
 const AdminReg = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +25,9 @@ const AdminReg = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setErrors("");
     setLoading(true);
     setSuccess(false);
@@ -62,54 +65,40 @@ const AdminReg = () => {
   };
 
   return (
-    <div className="admin-reg-container">
-      <h2>Register New Admin</h2>
-      {errors && <p className="error-message">{errors}</p>}
-      {success && <p className="success-message">Registration successful!</p>}
+    <div className="container reg">
       <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
-            name="username"
-            placeholder="Username"
-            required
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            name="email"
-            placeholder="Email"
-            type="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Phone:
-          <input
-            name="phone"
-            placeholder="Phone"
-            type="tel"
-            required
-            value={formData.phone}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            name="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            required
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
+        <h2 className="title">Register Admin</h2>
+        <input
+          name="username"
+          placeholder="Username"
+          required
+          value={formData.username}
+          onChange={handleChange}
+        />
+        <input
+          name="email"
+          placeholder="Email"
+          type="email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <input
+          name="phone"
+          placeholder="Phone"
+          type="tel"
+          required
+          value={formData.phone}
+          onChange={handleChange}
+        />
+        <input
+          name="password"
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
         <div className="show-pass">
           <input
             type="checkbox"
@@ -119,9 +108,26 @@ const AdminReg = () => {
           Show Password
         </div>
         <button type="submit" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
+          {loading ? <span className="loader"></span> : "Register"}
         </button>
       </form>
+      {errors && <p className="error-message">{errors}</p>}
+      {success && (
+        <div className="success-overlay">
+          <div className="success-message">
+            <p>
+              Registration successful!
+              <br />
+              <br />
+              <span>
+                Admin account has been created. You can now log in to the admin
+                panel.
+              </span>
+            </p>
+            <button onClick={() => window.location.replace("/")}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,14 +1,13 @@
-.admin-main {
+.adminsss {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f8f9fa;
   font-family: Arial, sans-serif;
 }
 
-.admin-main button {
+.adminsss button {
   width: 250px;
   padding: 15px 20px;
   margin: 10px;
@@ -20,12 +19,11 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-.admin-main button:hover {
+.adminsss button:hover {
   background-color: #0056b3;
 }
 
-.admin-main button:focus {
+.adminsss button:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

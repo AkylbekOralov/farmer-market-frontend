@@ -179,7 +179,7 @@ const BuyerMain = () => {
 
   return (
     <div className="buyer-main-container">
-      <div className="header">
+      <div className="header buyer">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Farm Icon"
@@ -212,96 +212,98 @@ const BuyerMain = () => {
         </div>
       </div>
 
-      <h2>Shop by Category</h2>
-      <div className="categories-grid">
-        {categories.map((category) => (
-          <div
-            className="category-card"
-            key={category.id}
-            onClick={() => handleCategoryClick(category.id)}
-          >
-            <div className="category-icon">
-              {category.name
-                .split(" ")
-                .map((word) => word[0])
-                .join("")}
+      <div className="mainsss">
+        <h2>Shop by Category</h2>
+        <div className="categories-grid">
+          {categories.map((category) => (
+            <div
+              className="category-card"
+              key={category.id}
+              onClick={() => handleCategoryClick(category.id)}
+            >
+              <div className="category-icon">
+                {category.name
+                  .split(" ")
+                  .map((word) => word[0])
+                  .join("")}
+              </div>
+              <h3>{category.name}</h3>
             </div>
-            <h3>{category.name}</h3>
-          </div>
-        ))}
-      </div>
-
-      <h2>Available Products</h2>
-      <div className="products-grid">
-        {displayedProducts.map((product) => (
-          <div className="product-card" key={product.id}>
-            <img
-              src={`http://localhost:8383/${product.images[0]}`}
-              alt={product.name}
-              className="product-image"
-            />
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
-            <p>
-              Available: {product.quantity} {product.unit_of_measure}
-            </p>
-            <div className="quantity-controls">
-              <button
-                className="quantity-btn"
-                onClick={() => handleQuantityChange(product.id, "decrement")}
-              >
-                -
-              </button>
-              <span>{quantities[product.id]}</span>
-              <button
-                className="quantity-btn"
-                onClick={() => handleQuantityChange(product.id, "increment")}
-              >
-                +
-              </button>
-            </div>
-            <button onClick={() => handleOrderClick(product.id)}>
-              Order Now
-            </button>
-            <button onClick={() => handleAddToCart(product)}>
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div>
-      {products.length > 10 && (
-        <div className="pagination-buttons">
-          {limit < products.length && (
-            <button className="show-more-button" onClick={showMoreProducts}>
-              Show More
-            </button>
-          )}
-          {limit > 10 && (
-            <button className="hide-button" onClick={hideProducts}>
-              Hide
-            </button>
-          )}
+          ))}
         </div>
-      )}
-      <h2>Recommendations</h2>
-      <div className="recommendation-grid">
-        {recommendedProducts.map((product) => (
-          <div className="recommendation-card" key={product.id}>
-            <img
-              src={`http://localhost:8383/${product.images[0]}`}
-              alt={product.name}
-              className="recommendation-image"
-            />
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
-            <button onClick={() => handleOrderClick(product.id)}>
-              Order Now
-            </button>
-            <button onClick={() => handleAddToCart(product)}>
-              Add to Cart
-            </button>
+
+        <h2>Available Products</h2>
+        <div className="products-grid">
+          {displayedProducts.map((product) => (
+            <div className="product-card" key={product.id}>
+              <img
+                src={`http://localhost:8383/${product.images[0]}`}
+                alt={product.name}
+                className="product-image"
+              />
+              <h3>{product.name}</h3>
+              <p>Price: ${product.price}</p>
+              <p>
+                Available: {product.quantity} {product.unit_of_measure}
+              </p>
+              <div className="quantity-controls">
+                <button
+                  className="quantity-btn"
+                  onClick={() => handleQuantityChange(product.id, "decrement")}
+                >
+                  -
+                </button>
+                <span>{quantities[product.id]}</span>
+                <button
+                  className="quantity-btn"
+                  onClick={() => handleQuantityChange(product.id, "increment")}
+                >
+                  +
+                </button>
+              </div>
+              <button onClick={() => handleOrderClick(product.id)}>
+                Order Now
+              </button>
+              <button onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
+        {products.length > 10 && (
+          <div className="pagination-buttons">
+            {limit < products.length && (
+              <button className="show-more-button" onClick={showMoreProducts}>
+                Show More
+              </button>
+            )}
+            {limit > 10 && (
+              <button className="hide-button" onClick={hideProducts}>
+                Hide
+              </button>
+            )}
           </div>
-        ))}
+        )}
+        <h2>Recommendations</h2>
+        <div className="recommendation-grid">
+          {recommendedProducts.map((product) => (
+            <div className="product-card" key={product.id}>
+              <img
+                src={`http://localhost:8383/${product.images[0]}`}
+                alt={product.name}
+                className="recommendation-image"
+              />
+              <h3>{product.name}</h3>
+              <p>Price: ${product.price}</p>
+              <button onClick={() => handleOrderClick(product.id)}>
+                Order Now
+              </button>
+              <button onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

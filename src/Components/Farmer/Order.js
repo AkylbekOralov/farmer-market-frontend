@@ -1,7 +1,7 @@
-// Components/Farmer/Order.js
 import React, { useEffect, useState } from "react";
 import "../../Styles/Farmer/order.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Order = () => {
   const navigate = useNavigate();
@@ -10,24 +10,33 @@ const Order = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
 
   useEffect(() => {
-    // Fetch order data from the JSON file
-    fetch("/order.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setOrders(data);
-        setFilteredOrders(data); // Initialize filtered orders with all orders
-      })
-      .catch((error) => console.error("Error fetching order data:", error));
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:8383/api/farmer/orders",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setOrders(response.data.orders || []);
+        setFilteredOrders(response.data.orders || []); // Initialize filtered orders
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   useEffect(() => {
     // Filter orders based on the search term
     const results = orders.filter(
       (order) =>
-        order.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.products.some((product) =>
-          product.toLowerCase().includes(searchTerm.toLowerCase())
+        order.buyerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.orderId.toString().includes(searchTerm.toLowerCase()) ||
+        order.items.some((item) =>
+          item.productName.toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
     setFilteredOrders(results);
@@ -53,7 +62,7 @@ const Order = () => {
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-account")}
           >
             My account
           </button>
@@ -62,49 +71,58 @@ const Order = () => {
           </button>
         </div>
       </div>
-      <h2>Orders</h2>
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Quick search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      </div>
-      <table className="order-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Client Name</th>
-            <th>Product(s)</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-            <th>Order Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredOrders.map((order, index) => (
-            <tr key={index}>
-              <td>{order.orderId}</td>
-              <td>{order.clientName}</td>
-              <td>{order.products.join(", ")}</td>
-              <td>
-                {Object.entries(order.quantity).map(([product, qty]) => (
-                  <div key={product}>{`${product}: ${qty}`}</div>
-                ))}
-              </td>
-              <td>{order.totalPrice}</td>
-              <td>{order.orderDate}</td>
-              <td>
-                <span className={`status ${order.status.toLowerCase()}`}>
-                  {order.status}
-                </span>
-              </td>
+      <div className="ordersss">
+        <h2>Orders</h2>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Quick search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Client Name</th>
+              <th>Product(s)</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
+              <th>Order Date</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredOrders.map((order) => (
+              <tr key={order.orderId}>
+                <td>{`#${order.orderId}`}</td>
+                <td>{order.buyerName}</td>
+                <td>
+                  {order.items.map((item) => item.productName).join(", ")}
+                </td>
+                <td>
+                  {order.items
+                    .map(
+                      (item) =>
+                        `${item.productName}: ${item.quantity} ${
+                          item.unitOfMeasure || "kg"
+                        }`
+                    )
+                    .join(", ")}
+                </td>
+                <td>{`$${order.totalOrderAmount}`}</td>
+                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                <td>
+                  <span className={`status ${order.status.toLowerCase()}`}>
+                    {order.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

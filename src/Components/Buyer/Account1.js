@@ -99,7 +99,7 @@ const Account = () => {
   return (
     <div className="container">
       {/* Header */}
-      <div className="header">
+      <div className="header buyer">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
           alt="Buyer Icon"
