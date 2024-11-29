@@ -100,7 +100,6 @@ const Cart = () => {
       );
 
       alert("Order placed successfully!");
-      console.log("Order details:", response.data);
       navigate("/buyer-order"); // Redirect to the order history page
     } catch (error) {
       console.error("Error placing order:", error);

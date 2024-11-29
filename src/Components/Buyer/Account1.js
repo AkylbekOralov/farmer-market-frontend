@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../../Styles/Account.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import edit from "../../Assets/edit.svg";
 
 const Account = () => {
   const [userData, setUserData] = useState({});
@@ -10,6 +11,7 @@ const Account = () => {
   const [paymentInfo, setPaymentInfo] = useState({});
   const [profilePicture, setProfilePicture] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -73,6 +75,7 @@ const Account = () => {
   };
 
   const handleProfileUpdate = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       await axios.put(
@@ -90,14 +93,16 @@ const Account = () => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setLoading(false);
       alert("Profile updated successfully!");
     } catch (error) {
+      setLoading(false);
       console.error("Error updating profile:", error);
     }
   };
 
   return (
-    <div className="container">
+    <div className="account container">
       {/* Header */}
       <div className="header buyer">
         <img
@@ -137,8 +142,16 @@ const Account = () => {
               alt="Profile"
               className="profile-pic"
             />
-            <input type="file" onChange={handleProfilePictureChange} />
+            <label for="file-upload" class="custom-file-upload">
+              <img src={edit} />
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              onChange={handleProfilePictureChange}
+            />
           </div>
+
           <div className="user-details">
             <label>
               Name:{" "}
@@ -164,75 +177,80 @@ const Account = () => {
           </div>
         </div>
 
-        {/* Buyer Info */}
-        <div className="buyer-info">
-          <h2>Delivery Information</h2>
-          <label>
-            Delivery Address:{" "}
-            <input
-              type="text"
-              value={buyerProfile.deliveryAddress}
-              onChange={(e) =>
-                setBuyerProfile({
-                  ...buyerProfile,
-                  deliveryAddress: e.target.value,
-                })
-              }
-            />
-          </label>
-        </div>
+        <div className="right">
+          {/* Buyer Info */}
+          <div className="buyer-info">
+            <h2>Delivery Information</h2>
+            <label>
+              Delivery Address:{" "}
+              <input
+                type="text"
+                value={buyerProfile.deliveryAddress}
+                onChange={(e) =>
+                  setBuyerProfile({
+                    ...buyerProfile,
+                    deliveryAddress: e.target.value,
+                  })
+                }
+              />
+            </label>
+          </div>
 
-        {/* Payment Info */}
-        <div className="payment-info">
-          <h2>Payment Information</h2>
-          <label>
-            Card Number:{" "}
-            <input
-              type="text"
-              maxLength="16"
-              value={paymentInfo.cardNumber}
-              onChange={(e) =>
-                setPaymentInfo({ ...paymentInfo, cardNumber: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            Expire Date:{" "}
-            <input
-              type="date"
-              value={paymentInfo.expireDate}
-              onChange={(e) =>
-                setPaymentInfo({ ...paymentInfo, expireDate: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            Owner Name:{" "}
-            <input
-              type="text"
-              value={paymentInfo.ownerName}
-              onChange={(e) =>
-                setPaymentInfo({ ...paymentInfo, ownerName: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            CVC:{" "}
-            <input
-              type="text"
-              maxLength="3"
-              value={paymentInfo.cvc}
-              onChange={(e) =>
-                setPaymentInfo({ ...paymentInfo, cvc: e.target.value })
-              }
-            />
-          </label>
+          {/* Payment Info */}
+          <div className="payment-info">
+            <h2>Payment Information</h2>
+            <label>
+              Card Number:{" "}
+              <input
+                type="text"
+                maxLength="16"
+                value={paymentInfo.cardNumber}
+                onChange={(e) =>
+                  setPaymentInfo({ ...paymentInfo, cardNumber: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Expire Date:{" "}
+              <input
+                type="date"
+                value={paymentInfo.expireDate}
+                onChange={(e) =>
+                  setPaymentInfo({ ...paymentInfo, expireDate: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Owner Name:{" "}
+              <input
+                type="text"
+                value={paymentInfo.ownerName}
+                onChange={(e) =>
+                  setPaymentInfo({ ...paymentInfo, ownerName: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              CVC:{" "}
+              <input
+                type="text"
+                maxLength="3"
+                value={paymentInfo.cvc}
+                onChange={(e) =>
+                  setPaymentInfo({ ...paymentInfo, cvc: e.target.value })
+                }
+              />
+            </label>
+          </div>
         </div>
-
-        <button className="update-button" onClick={handleProfileUpdate}>
-          Update Profile
-        </button>
       </div>
+      <button
+        className="update-button"
+        disabled={loading}
+        onClick={handleProfileUpdate}
+      >
+        {loading ? <span className="loader"></span> : "Update Profile"}
+      </button>
     </div>
   );
 };

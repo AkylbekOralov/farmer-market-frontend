@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../../Styles/Account.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import edit from "../../Assets/edit.svg";
 
 const Account = () => {
   const [userData, setUserData] = useState({});
@@ -11,6 +12,7 @@ const Account = () => {
   const [cropTypes, setCropTypes] = useState([]); // Store available crop types as names
   const [selectedCrops, setSelectedCrops] = useState([]); // Track selected crop names
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -97,6 +99,7 @@ const Account = () => {
   };
 
   const handleProfileUpdate = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       await axios.put(
@@ -110,14 +113,16 @@ const Account = () => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setLoading(false);
       alert("Profile updated successfully!");
     } catch (error) {
+      setLoading(false);
       console.error("Error updating profile:", error);
     }
   };
 
   return (
-    <div className="container">
+    <div className="account container">
       {/* Header */}
       <div className="header">
         <img
@@ -143,7 +148,7 @@ const Account = () => {
         </div>
       </div>
 
-      <div className="account-container">
+      <div className="account-container farmer">
         {/* User Info */}
         <div className="user-info">
           <h2>About account</h2>
@@ -157,7 +162,14 @@ const Account = () => {
               alt="Profile"
               className="profile-pic"
             />
-            <input type="file" onChange={handleProfilePictureChange} />
+            <label for="file-upload" class="custom-file-upload">
+              <img src={edit} />
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              onChange={handleProfilePictureChange}
+            />
           </div>
           <div className="user-details">
             <label>
@@ -225,11 +237,14 @@ const Account = () => {
             </div>
           </div>
         </div>
-
-        <button className="update-button" onClick={handleProfileUpdate}>
-          Update Profile
-        </button>
       </div>
+      <button
+        className="update-button"
+        disabled={loading}
+        onClick={handleProfileUpdate}
+      >
+        {loading ? <span className="loader"></span> : "Update Profile"}
+      </button>
     </div>
   );
 };

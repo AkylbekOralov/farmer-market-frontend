@@ -18,6 +18,18 @@ const BuyerMain = () => {
   // Track the quantity for each product
   const [quantities, setQuantities] = useState({});
 
+  const fetchCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8383/api/buyer/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCart(response.data.cart || []);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchRecommendations = () => {
       if (products.length > 0) {
@@ -94,21 +106,6 @@ const BuyerMain = () => {
       }
     };
 
-    const fetchCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:8383/api/buyer/cart",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setCart(response.data.cart || []);
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-      }
-    };
-
     fetchProducts();
     fetchCart();
   }, []);
@@ -116,7 +113,7 @@ const BuyerMain = () => {
   const initializeQuantities = (products) => {
     const initialQuantities = {};
     products.forEach((product) => {
-      initialQuantities[product.id] = 1; // Default to 1
+      initialQuantities[product.id] = 0.5; // Default to 1
     });
     setQuantities(initialQuantities);
   };
@@ -126,11 +123,11 @@ const BuyerMain = () => {
       const newQuantities = { ...prevQuantities };
       if (action === "increment") {
         newQuantities[productId] = Math.min(
-          newQuantities[productId] + 1,
+          newQuantities[productId] + 0.5,
           products.find((p) => p.id === productId).quantity // Limit by available quantity
         );
       } else if (action === "decrement") {
-        newQuantities[productId] = Math.max(newQuantities[productId] - 1, 1);
+        newQuantities[productId] = Math.max(newQuantities[productId] - 0.5, 1);
       }
       return newQuantities;
     });
@@ -157,7 +154,7 @@ const BuyerMain = () => {
         }
       );
 
-      setCart((prevCart) => [...prevCart, response.data.cartItem]);
+      await fetchCart();
       alert(
         `${product.name} (Quantity: ${quantity}) has been added to your cart.`
       );
@@ -221,12 +218,6 @@ const BuyerMain = () => {
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
             >
-              <div className="category-icon">
-                {category.name
-                  .split(" ")
-                  .map((word) => word[0])
-                  .join("")}
-              </div>
               <h3>{category.name}</h3>
             </div>
           ))}
@@ -241,35 +232,72 @@ const BuyerMain = () => {
                 alt={product.name}
                 className="product-image"
               />
-              <h3>{product.name}</h3>
-              <p>Price: ${product.price}</p>
-              <p>
-                Available: {product.quantity} {product.unit_of_measure}
-              </p>
-              <div className="quantity-controls">
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantityChange(product.id, "decrement")}
-                >
-                  -
-                </button>
-                <span>{quantities[product.id]}</span>
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantityChange(product.id, "increment")}
-                >
-                  +
-                </button>
+              <div className="product-content">
+                <div className="name">{product.name}</div>
+                <div className="boxes">
+                  <div className="category">{product.Category?.name}</div>
+                  <div className="quantity">
+                    {product.quantity} {product.unit_of_measure} available
+                  </div>
+                </div>
+                <div className="farmer-info">
+                  {product.FarmersProfile?.User ? (
+                    <>
+                      <img
+                        src={`http://localhost:8383/${product.FarmersProfile.User.profile_picture}`}
+                        alt={product.FarmersProfile.User.username}
+                        className="farmer-image"
+                      />
+                      <span>{product.FarmersProfile.User.username}</span>
+                    </>
+                  ) : (
+                    <span>Farmer information not available</span>
+                  )}
+                </div>
+                <div className="descrip">{product.description}</div>
+
+                <div className="foot">
+                  <div className="price">
+                    <div>PRICE</div>
+                    <div>
+                      ${product.price} <span>/ {product.unit_of_measure}</span>
+                    </div>
+                  </div>
+                  <div className="carttt">
+                    <div className="quantity-controls">
+                      <button
+                        className="quantity-btn"
+                        onClick={() =>
+                          handleQuantityChange(product.id, "decrement")
+                        }
+                      >
+                        -
+                      </button>
+                      <span>
+                        {quantities[product.id]} {product.unit_of_measure}
+                      </span>
+                      <button
+                        className="quantity-btn"
+                        onClick={() =>
+                          handleQuantityChange(product.id, "increment")
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      className="add-to-cart-btn"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button onClick={() => handleOrderClick(product.id)}>
-                Order Now
-              </button>
-              <button onClick={() => handleAddToCart(product)}>
-                Add to Cart
-              </button>
             </div>
           ))}
         </div>
+
         {products.length > 10 && (
           <div className="pagination-buttons">
             {limit < products.length && (
@@ -291,16 +319,68 @@ const BuyerMain = () => {
               <img
                 src={`http://localhost:8383/${product.images[0]}`}
                 alt={product.name}
-                className="recommendation-image"
+                className="product-image"
               />
-              <h3>{product.name}</h3>
-              <p>Price: ${product.price}</p>
-              <button onClick={() => handleOrderClick(product.id)}>
-                Order Now
-              </button>
-              <button onClick={() => handleAddToCart(product)}>
-                Add to Cart
-              </button>
+              <div className="product-content">
+                <div className="name">{product.name}</div>
+                <div className="boxes">
+                  <div className="category">{product.Category?.name}</div>
+                  <div className="quantity">
+                    {product.quantity} {product.unit_of_measure} available
+                  </div>
+                </div>
+                <div className="farmer-info">
+                  {product.FarmersProfile?.User ? (
+                    <>
+                      <img
+                        src={`http://localhost:8383/${product.FarmersProfile.User.profile_picture}`}
+                        alt={product.FarmersProfile.User.username}
+                        className="farmer-image"
+                      />
+                      <span>{product.FarmersProfile.User.username}</span>
+                    </>
+                  ) : (
+                    <span>Farmer information not available</span>
+                  )}
+                </div>
+                <div className="descrip">{product.description}</div>
+
+                <div className="foot">
+                  <div className="price">
+                    <div>PRICE</div>
+                    <div>
+                      ${product.price} <span>/ {product.unit_of_measure}</span>
+                    </div>
+                  </div>
+                  <div className="carttt">
+                    <div className="quantity-controls">
+                      <button
+                        className="quantity-btn"
+                        onClick={() =>
+                          handleQuantityChange(product.id, "decrement")
+                        }
+                      >
+                        -
+                      </button>
+                      <span>{quantities[product.id]}</span>
+                      <button
+                        className="quantity-btn"
+                        onClick={() =>
+                          handleQuantityChange(product.id, "increment")
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      className="add-to-cart-btn"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>

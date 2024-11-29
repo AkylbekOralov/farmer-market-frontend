@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../Styles/Registration.css"; // Use the same stylesheet
 
 const AdminReg = () => {
@@ -8,6 +9,7 @@ const AdminReg = () => {
     phone: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState("");
@@ -128,6 +130,9 @@ const AdminReg = () => {
           </div>
         </div>
       )}
+      <div className="btn log-btn" onClick={() => navigate("/")}>
+        Already have an account? Log in
+      </div>
     </div>
   );
 };
