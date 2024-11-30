@@ -1,3 +1,4 @@
+// components/Buyer/Orders.js
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -39,48 +40,34 @@ const Orders = () => {
   };
 
   return (
-    <div className="order">
-      <div className="header buyer">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
-          alt="Farm Icon"
-          className="main-logo"
-        />
-        <div className="right-section">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
-            alt="Mail Icon"
-            className="mail-icon"
-          />
-          <button
-            className="account-button"
-            onClick={() => navigate("/buyer-account")}
-          >
-            My account
-          </button>
-          <button
-            className="account-button"
-            onClick={() => navigate("/buyer-main")}
-          >
-            Main
-          </button>
-          <button className="logout-button" onClick={handleLogout}>
-            Log out
-          </button>
-        </div>
-      </div>
-      <div className="ordersss">
+    <div className="order-container">
+      <div className="header buyer">{/* Header content */}</div>
+      <div className="orders-content">
         <h2>Your Orders</h2>
         {orders.length === 0 ? (
           <p>No orders found.</p>
         ) : (
-          <ul>
+          <ul className="orders-list">
             {orders.map((order) => (
-              <li key={order.id} onClick={() => handleOrderClick(order.id)}>
-                <p>Order ID: {order.id}</p>
-                <p>Status: {order.status}</p>
-                <p>Total Amount: ${order.total_amount}</p>
+              <li
+                key={order.id}
+                className="order-item"
+                onClick={() => handleOrderClick(order.id)}
+              >
                 <p>
+                  <span>Order ID:</span> {order.id}
+                </p>
+                <p>
+                  <span>Status:</span>{" "}
+                  <span className="order-status">{order.status}</span>
+                </p>
+                <p>
+                  <span>Total Amount:</span>{" "}
+                  <span className="order-total-amount">
+                    ${order.total_amount}
+                  </span>
+                </p>
+                <p className="order-date">
                   Order Date: {new Date(order.created_at).toLocaleDateString()}
                 </p>
               </li>

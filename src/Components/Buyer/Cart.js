@@ -12,7 +12,11 @@ const Cart = () => {
   // Calculate the total cost of all items in the cart
   const calculateTotalCost = () => {
     return cartItems
-      .reduce((total, item) => total + item.quantity * item.product.price, 0)
+      .reduce(
+        (total, item) =>
+          total + parseFloat(item.quantity) * parseFloat(item.product.price),
+        0
+      )
       .toFixed(2);
   };
 
@@ -43,12 +47,15 @@ const Cart = () => {
       return;
     }
 
+    const currentQuantity = parseFloat(updatedItem.quantity);
+    const productQuantity = parseFloat(updatedItem.product.quantity);
+
     const newQuantity =
       action === "increment"
-        ? updatedItem.quantity + 1 > updatedItem.product.quantity
-          ? updatedItem.product.quantity
-          : updatedItem.quantity + 1
-        : Math.max(updatedItem.quantity - 1, 1);
+        ? currentQuantity + 0.5 > productQuantity
+          ? productQuantity
+          : currentQuantity + 0.5
+        : Math.max(currentQuantity - 0.5, 0.5);
 
     try {
       const token = localStorage.getItem("token");
@@ -164,8 +171,10 @@ const Cart = () => {
                         -
                       </button>
                       <span>
-                        {item.quantity} {item.product.unit_of_measure}
+                        {parseFloat(item.quantity)}{" "}
+                        {item.product.unit_of_measure}
                       </span>
+
                       <button
                         className="quantity-btn"
                         onClick={() =>

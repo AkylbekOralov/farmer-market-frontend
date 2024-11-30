@@ -1,3 +1,4 @@
+// components/Buyer/OrderDetails.js
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -40,60 +41,59 @@ const OrderDetails = () => {
   };
 
   return (
-    <div className="order">
-      <div className="header buyer">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
-          alt="Farm Icon"
-          className="main-logo"
-        />
-        <div className="right-section">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
-            alt="Mail Icon"
-            className="mail-icon"
-          />
-          <button
-            className="account-button"
-            onClick={() => navigate("/buyer-account")}
-          >
-            My account
-          </button>
-          <button
-            className="account-button"
-            onClick={() => navigate("/buyer-main")}
-          >
-            Main
-          </button>
-          <button className="logout-button" onClick={handleLogout}>
-            Log out
-          </button>
-        </div>
-      </div>
-      <div className="ordersss">
+    <div className="order-details-container">
+      <div className="header buyer">{/* Header content */}</div>
+      <div className="order-details-content">
         <h2>Order Details</h2>
-        <p>Order ID: {order.id}</p>
-        <p>Status: {order.status}</p>
-        <p>Total Amount: ${order.total_amount}</p>
-        <p>Order Date: {new Date(order.created_at).toLocaleDateString()}</p>
+        <div className="order-info">
+          <p>
+            <span>Order ID:</span> {order.id}
+          </p>
+          <p>
+            <span>Status:</span>{" "}
+            <span className="order-status">{order.status}</span>
+          </p>
+          <p>
+            <span>Total Amount:</span>{" "}
+            <span className="order-total-amount">${order.total_amount}</span>
+          </p>
+          <p className="order-date">
+            Order Date: {new Date(order.created_at).toLocaleDateString()}
+          </p>
+        </div>
 
-        <h3>Items</h3>
-        <ul>
-          {order.OrderItems.map((item) => (
-            <li key={item.id}>
-              <img
-                src={`http://localhost:8383/${item.Product.images[0]}`}
-                alt={item.Product.name}
-                style={{ width: "50px", height: "50px" }}
-              />
-              <p>Product: {item.Product.name}</p>
-              <p>Price: ${item.price}</p>
-              <p>Quantity: {item.quantity}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="order-items">
+          <h3>Items</h3>
+          <ul className="order-items-list">
+            {order.OrderItems.map((item) => (
+              <li key={item.id}>
+                <img
+                  src={`http://localhost:8383/${item.Product.images[0]}`}
+                  alt={item.Product.name}
+                />
+                <div className="order-item-details">
+                  <p>
+                    <span>Product:</span> {item.Product.name}
+                  </p>
+                  <p>
+                    <span>Price:</span> ${item.price}
+                  </p>
+                  <p>
+                    <span>Quantity:</span> {item.quantity}{" "}
+                    {item.Product.unit_of_measure}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <button onClick={() => navigate("/buyer-order")}>Back to Orders</button>
+        <button
+          className="back-to-orders-btn"
+          onClick={() => navigate("/buyer-order")}
+        >
+          Back to Orders
+        </button>
       </div>
     </div>
   );

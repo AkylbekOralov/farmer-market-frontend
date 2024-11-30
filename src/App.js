@@ -26,6 +26,7 @@ import Account1 from "./Components/Buyer/Account1";
 import Cart from "./Components/Buyer/Cart";
 import BuyerOrder from "./Components/Buyer/Order";
 import OrderDetails from "./Components/Buyer/OrderDetails";
+import CategoryProducts from "./Components/Buyer/CategoryProducts";
 
 // Admin
 import AdminMain from "./Components/Admin/AdminMain";
@@ -170,6 +171,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/buyer/categories/:categoryId/products"
+          element={
+            <ProtectedRoute role="buyer">
+              <CategoryProducts />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Admin Routes */}
         <Route
           path="/admin-main"
