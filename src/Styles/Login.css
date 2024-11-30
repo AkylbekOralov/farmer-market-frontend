@@ -123,6 +123,14 @@
   margin-top: 20px;
 }
 
+/* Login button styling */
+.login button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
 .login .divider-line {
   border: none;
   border-top: 1px solid #ccc; /* Gray line */
@@ -149,12 +157,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-/* Login button styling */
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 }

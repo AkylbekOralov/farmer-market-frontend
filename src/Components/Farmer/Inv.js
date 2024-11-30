@@ -9,13 +9,14 @@ const Inventory = () => {
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
+  const [quantityInputs, setQuantityInputs] = useState({});
 
   useEffect(() => {
     const fetchInventory = async () => {
       try {
         const token = localStorage.getItem("token");
         const inventoryResponse = await axios.get(
-          "http://localhost:8383/api/farmer/products",
+          "http://localhost:8383/api/farmer/inventory",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setInventoryData(inventoryResponse.data.products || []);
@@ -46,6 +47,61 @@ const Inventory = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const handleQuantityChange = (productId, value) => {
+    setQuantityInputs({
+      ...quantityInputs,
+      [productId]: value,
+    });
+  };
+
+  const handleAddQuantity = async (productId) => {
+    const quantityToAdd = parseFloat(quantityInputs[productId]);
+    if (isNaN(quantityToAdd)) {
+      alert("Please enter a valid number");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8383/api/farmer/inventory/${productId}/quantity`,
+        { quantity: quantityToAdd },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Update the local inventory data
+      setInventoryData((prevData) =>
+        prevData.map((item) => {
+          if (item.id === productId) {
+            const newQuantity = parseFloat(item.quantity) + quantityToAdd;
+            let inventory_status = "In Stock";
+            if (newQuantity <= 0) {
+              inventory_status = "Out of Stock";
+            } else if (newQuantity < 10) {
+              inventory_status = "Low Stock";
+            }
+
+            return {
+              ...item,
+              quantity: newQuantity,
+              inventory_status,
+            };
+          }
+          return item;
+        })
+      );
+
+      // Clear the input field
+      setQuantityInputs({
+        ...quantityInputs,
+        [productId]: "",
+      });
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      alert("Failed to update quantity");
+    }
+  };
+
   return (
     <div className="inventory-container">
       <div className="header">
@@ -57,7 +113,13 @@ const Inventory = () => {
         <div className="right-section">
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-main")}
+          >
+            Main
+          </button>
+          <button
+            className="account-button"
+            onClick={() => navigate("/farmer-account")}
           >
             My Account
           </button>
@@ -101,7 +163,7 @@ const Inventory = () => {
               <th>Category</th>
               <th>Quantity</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>Add Quantity</th>
             </tr>
           </thead>
           <tbody>
@@ -118,6 +180,8 @@ const Inventory = () => {
                     className={`status ${
                       item.inventory_status === "In Stock"
                         ? "in-stock"
+                        : item.inventory_status === "Low Stock"
+                        ? "low-stock"
                         : "out-of-stock"
                     }`}
                   >
@@ -125,15 +189,20 @@ const Inventory = () => {
                   </span>
                 </td>
                 <td>
-                  <button
-                    className="edit-button"
-                    onClick={() =>
-                      navigate(`/inventory/edit/${item.id}`, {
-                        state: { quantity: item.quantity },
-                      })
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={quantityInputs[item.id] || ""}
+                    onChange={(e) =>
+                      handleQuantityChange(item.id, e.target.value)
                     }
+                    placeholder="Amount"
+                  />
+                  <button
+                    onClick={() => handleAddQuantity(item.id)}
+                    className="add-quantity-button"
                   >
-                    Edit
+                    Add
                   </button>
                 </td>
               </tr>

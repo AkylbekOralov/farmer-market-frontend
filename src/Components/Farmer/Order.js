@@ -1,3 +1,4 @@
+// Components/Farmer/Order.js
 import React, { useEffect, useState } from "react";
 import "../../Styles/Farmer/order.css";
 import { useNavigate } from "react-router-dom";
@@ -46,6 +47,46 @@ const Order = () => {
     setSearchTerm(e.target.value); // Update search term on input change
   };
 
+  // Function to handle status update
+  const handleStatusChange = async (orderItemId, newStatus) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8383/api/farmer/order-item/${orderItemId}/status`,
+        { status: newStatus },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      // Update the local state to reflect the change
+      setOrders((prevOrders) =>
+        prevOrders.map((order) => {
+          return {
+            ...order,
+            items: order.items.map((item) => {
+              if (item.orderItemId === orderItemId) {
+                return { ...item, status: newStatus };
+              }
+              return item;
+            }),
+          };
+        })
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Failed to update status");
+    }
+  };
+
+  const statusOptions = [
+    "Pending",
+    "Confirmed",
+    "Shipped",
+    "Delivered",
+    "Cancelled",
+  ];
+
   return (
     <div className="order-container">
       <div className="header">
@@ -60,6 +101,12 @@ const Order = () => {
             alt="Mail Icon"
             className="mail-icon"
           />
+          <button
+            className="account-button"
+            onClick={() => navigate("/farmer-main")}
+          >
+            Main
+          </button>
           <button
             className="account-button"
             onClick={() => navigate("/farmer-account")}
@@ -86,40 +133,40 @@ const Order = () => {
             <tr>
               <th>Order ID</th>
               <th>Client Name</th>
-              <th>Product(s)</th>
+              <th>Product</th>
               <th>Quantity</th>
               <th>Total Price</th>
               <th>Order Date</th>
-              <th>Status</th>
+              <th>Item Status</th>
             </tr>
           </thead>
           <tbody>
-            {filteredOrders.map((order) => (
-              <tr key={order.orderId}>
-                <td>{`#${order.orderId}`}</td>
-                <td>{order.buyerName}</td>
-                <td>
-                  {order.items.map((item) => item.productName).join(", ")}
-                </td>
-                <td>
-                  {order.items
-                    .map(
-                      (item) =>
-                        `${item.productName}: ${item.quantity} ${
-                          item.unitOfMeasure || "kg"
-                        }`
-                    )
-                    .join(", ")}
-                </td>
-                <td>{`$${order.totalOrderAmount}`}</td>
-                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                <td>
-                  <span className={`status ${order.status.toLowerCase()}`}>
-                    {order.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {filteredOrders.map((order) =>
+              order.items.map((item) => (
+                <tr key={item.orderItemId}>
+                  <td>{`#${order.orderId}`}</td>
+                  <td>{order.buyerName}</td>
+                  <td>{item.productName}</td>
+                  <td>{`${item.quantity} ${item.unitOfMeasure || "kg"}`}</td>
+                  <td>{`$${item.totalPrice.toFixed(2)}`}</td>
+                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <select
+                      value={item.status}
+                      onChange={(e) =>
+                        handleStatusChange(item.orderItemId, e.target.value)
+                      }
+                    >
+                      {statusOptions.map((status) => (
+                        <option key={status} value={status} className={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

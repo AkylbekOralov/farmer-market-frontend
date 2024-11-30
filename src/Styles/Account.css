@@ -5,6 +5,7 @@ input[type="file"] {
 .custom-file-upload img {
   width: 30px;
   height: auto;
+  cursor: pointer;
 }
 
 /* General Container Styling */

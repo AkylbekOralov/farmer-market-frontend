@@ -111,3 +111,40 @@
 .order-container .chat-button:hover {
   background-color: #45a049;
 }
+
+/* Styles/Farmer/order.css */
+
+/* Style the select dropdown */
+.order-container select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Optional: Add styles for status labels */
+.order-container .status {
+  padding: 5px 8px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+}
+
+.order-container .status.pending {
+  background-color: gray;
+}
+
+.order-container .status.confirmed {
+  background-color: blue;
+}
+
+.order-container .status.shipped {
+  background-color: orange;
+}
+
+.order-container .status.delivered {
+  background-color: green;
+}
+
+.order-container .status.cancelled {
+  background-color: red;
+}

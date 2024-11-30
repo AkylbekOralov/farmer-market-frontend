@@ -1,14 +1,16 @@
+// Components/Farmer/EditProduct.js
 import React, { useState, useEffect } from "react";
 import "../../Styles/Farmer/EditProduct.css";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import plus from "../../Assets/add_photo_alternate_outlined.svg";
 
 const EditProduct = () => {
-  const { productId } = useParams(); // Get product ID from URL
+  const { productId } = useParams();
   const navigate = useNavigate();
-  const [productData, setProductData] = useState(null); // Initialize as null
-  const [categories, setCategories] = useState([]); // Categories fetched from backend
-  const [newImages, setNewImages] = useState([]); // For newly uploaded images
+  const [productData, setProductData] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [newImages, setNewImages] = useState([]);
 
   // Fetch product details and categories
   useEffect(() => {
@@ -47,7 +49,7 @@ const EditProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    setNewImages(Array.from(e.target.files));
+    setNewImages(e.target.files);
   };
 
   const handleSubmit = async (e) => {
@@ -62,7 +64,7 @@ const EditProduct = () => {
     data.append("unit_of_measure", productData.unit_of_measure);
 
     // Append new images
-    newImages.forEach((file) => data.append("newImages", file));
+    Array.from(newImages).forEach((file) => data.append("newImages", file));
 
     try {
       const token = localStorage.getItem("token");
@@ -74,7 +76,7 @@ const EditProduct = () => {
         }
       );
       alert("Product updated successfully!");
-      navigate("/prodlist"); // Redirect to product list
+      navigate("/prodlist");
     } catch (error) {
       console.error("Error updating product:", error);
       alert("Failed to update product");
@@ -104,7 +106,7 @@ const EditProduct = () => {
   };
 
   if (!productData) {
-    return <div>Loading...</div>; // Show a loading indicator until productData is fetched
+    return <div>Loading...</div>;
   }
 
   return (
@@ -123,7 +125,7 @@ const EditProduct = () => {
           />
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-account")}
           >
             My account
           </button>
@@ -132,91 +134,122 @@ const EditProduct = () => {
           </button>
         </div>
       </div>
+      <h1>Edit Product</h1>
 
       <form className="product-form" onSubmit={handleSubmit}>
-        <h1>Edit Product</h1>
-        <div className="form-fields">
-          <label>Product Name</label>
-          <input
-            type="text"
-            name="name"
-            value={productData.name || ""}
-            onChange={handleChange}
-          />
+        {/* Form content divided into two columns */}
+        <div className="form-content">
+          {/* Left Column */}
+          <div className="form-left">
+            <label>Product Images</label>
 
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={productData.description || ""}
-            onChange={handleChange}
-          />
-
-          <label>Category</label>
-          <select
-            name="category"
-            value={productData.category || ""}
-            onChange={handleChange}
-          >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-
-          <label>Price</label>
-          <input
-            type="number"
-            name="price"
-            step="0.01"
-            value={productData.price || ""}
-            onChange={handleChange}
-          />
-
-          <label>Quantity</label>
-          <input
-            type="number"
-            name="quantity"
-            value={productData.quantity || ""}
-            onChange={handleChange}
-          />
-
-          <label>Unit of Measure</label>
-          <input
-            type="text"
-            name="unit_of_measure"
-            value={productData.unit_of_measure || ""}
-            onChange={handleChange}
-          />
-
-          <label>Product Images</label>
-          {productData.images.map((image, index) => (
-            <div key={index} className="image-preview">
-              <img
-                src={`http://localhost:8383/${image}`}
-                alt={`Product ${index}`}
-              />
-              <button
-                type="button"
-                className="delete-image-button"
-                onClick={() => handleDeleteImage(image)}
-              >
-                Delete
-              </button>
+            {/* Existing Images */}
+            <div className="existing-images">
+              {productData.images.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img
+                    src={`http://localhost:8383/${image}`}
+                    alt={`Product ${index}`}
+                  />
+                  <button
+                    type="button"
+                    className="delete-image-button"
+                    onClick={() => handleDeleteImage(image)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
-          <input
-            type="file"
-            name="newImages"
-            accept="image/*"
-            multiple
-            onChange={handleFileChange}
-          />
 
-          <button className="save-button" type="submit">
-            Save
-          </button>
+            {/* Upload New Images */}
+            <label htmlFor="file-upload" className="custom-file-upload">
+              <img src={plus} alt="Upload Icon" />
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              name="newImages"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+            />
+
+            {/* Display Previews of New Images */}
+            {newImages.length > 0 && (
+              <div className="image-preview">
+                {Array.from(newImages).map((file, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(file)}
+                    alt={`Preview ${index}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right Column */}
+          <div className="form-right">
+            <label>Product Name</label>
+            <input
+              type="text"
+              name="name"
+              value={productData.name || ""}
+              onChange={handleChange}
+            />
+
+            <label>Description</label>
+            <textarea
+              name="description"
+              value={productData.description || ""}
+              onChange={handleChange}
+            />
+
+            <label>Category</label>
+            <select
+              name="category"
+              value={productData.category || ""}
+              onChange={handleChange}
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+
+            <label>Price</label>
+            <input
+              type="number"
+              name="price"
+              step="0.01"
+              value={productData.price || ""}
+              onChange={handleChange}
+            />
+
+            <label>Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              value={productData.quantity || ""}
+              onChange={handleChange}
+            />
+
+            <label>Unit of Measure</label>
+            <input
+              type="text"
+              name="unit_of_measure"
+              value={productData.unit_of_measure || ""}
+              onChange={handleChange}
+            />
+
+            {/* Save Button */}
+            <button className="save-button" type="submit">
+              Save
+            </button>
+          </div>
         </div>
       </form>
     </div>

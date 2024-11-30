@@ -1,100 +1,112 @@
+/* Styles/Farmer/EditProduct.css */
+
 /* Main container styling */
 .edit-product-container {
-  margin-top: 170px; /* Optional: Adjust the spacing above */
-  padding: 20px;
   font-family: Arial, sans-serif;
-
-  /* Centering Styles */
-  display: flex; /* Enable flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Make container take full viewport height */
-  box-sizing: border-box; /* Ensure padding is included in dimensions */
-}
-
-/* Header styling */
-.edit-product-container .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.edit-product-container .main-logo {
-  width: 50px;
-  height: 50px;
-}
-
-.edit-product-container .mail-icon {
-  width: 30px;
-  height: 30px;
-}
-
-.edit-product-container .right-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.edit-product-container .account-button,
-.edit-product-container .logout-button {
-  background-color: green;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 0.9rem;
 }
 
 /* Title styling */
-.edit-product-container .edit-product-container h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+.edit-product-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-/* Form container styling */
+/* Product form styling */
 .edit-product-container .product-form {
-  display: flex;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-/* Image upload section */
-.edit-product-container .image-upload {
+.edit-product-container .form-content {
+  display: flex;
+  gap: 40px;
+}
+
+/* Left and Right columns */
+.edit-product-container .form-left,
+.edit-product-container .form-right {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #ccc;
-  background-color: #f5f5f5;
-  margin-right: 20px;
-  border-radius: 10px;
-  height: 200px;
-}
-
-.edit-product-container .image-placeholder {
-  color: #aaa;
-  font-size: 1rem;
-}
-
-/* Form fields styling */
-.edit-product-container .form-fields {
-  flex: 2;
-  display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
-.edit-product-container .form-fields label {
+/* Label styling */
+.edit-product-container .product-form label {
   font-weight: bold;
   color: #333;
 }
 
-.edit-product-container .form-fields input {
-  padding: 8px;
+/* Input, textarea, and select styling */
+.product-form input,
+.product-form textarea,
+.product-form select {
+  padding: 10px;
   font-size: 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Custom file upload styling */
+.edit-product-container .custom-file-upload {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.edit-product-container .custom-file-upload img {
+  width: 36px;
+  height: auto;
+}
+
+/* Existing Images styling */
+.edit-product-container .existing-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.edit-product-container .image-item {
+  position: relative;
+}
+
+.edit-product-container .image-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-product-container .delete-image-button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* Image preview styling */
+.edit-product-container .image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.edit-product-container .image-preview img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
@@ -102,10 +114,18 @@
 .edit-product-container .save-button {
   background-color: green;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
   align-self: flex-start;
+  margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-content {
+    flex-direction: column;
+  }
 }

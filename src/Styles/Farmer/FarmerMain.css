@@ -1,19 +1,20 @@
 /* Welcome message styling */
-.welcome-message {
+.farmer.container .welcome-message {
   font-size: 2em;
   margin-top: 150px;
   color: #333;
-  margin-bottom: 20px; /* Adjusts spacing between message and buttons */
+  margin-bottom: 90px; /* Adjusts spacing between message and buttons */
+  text-align: center;
 }
 
 /* Button grid styling */
-.button-grid {
+.farmer.container .button-grid {
   display: flex;
   gap: 20px;
   justify-content: center;
 }
 
-.action-button {
+.farmer.container .action-button {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -24,16 +25,16 @@
   transition: background-color 0.3s ease;
 }
 
-.action-button:hover {
+.farmer.container .action-button:hover {
   background-color: #45a049;
 }
 
 /* Chat button styling */
-.chat-button {
+.farmer.container .chat-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #333333;
+  bottom: 30px;
+  right: 60px;
+  background-color: #4caf50;
   color: white;
   border: none;
   padding: 10px;
@@ -47,6 +48,6 @@
   height: 50px;
 }
 
-.chat-button:hover {
-  background-color: #555555;
+.farmer.container .chat-button:hover {
+  background-color: #45a049;
 }

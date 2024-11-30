@@ -64,7 +64,7 @@ const FarmerMain = () => {
   };
 
   return (
-    <div className="container">
+    <div className="farmer container">
       {/* Header */}
       <div className="header">
         <img

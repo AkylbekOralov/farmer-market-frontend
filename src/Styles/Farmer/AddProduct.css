@@ -2,34 +2,27 @@
 
 /* Main container styling */
 .add-product-container {
-  margin-top: 60px; /* Optional: Adjust the spacing above */
-  padding: 20px;
   font-family: Arial, sans-serif;
-
-  /* Centering Styles */
-  display: flex; /* Enable flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Make container take full viewport height */
-  box-sizing: border-box; /* Ensure padding is included in dimensions */
 }
 
 /* Title styling */
 .add-product-container h1 {
   font-size: 2rem;
+  margin-top: 150px;
+  text-align: center;
   margin-bottom: 20px;
 }
 
 /* Form container styling */
-.product-form {
+.add-product-container .product-form {
   display: flex;
-  background-color: #f9f9f9;
-  padding: 20px;
+  gap: 120px;
   border-radius: 10px;
+  justify-content: center;
 }
 
 /* Image upload section */
-.image-upload {
+.add-product-container .image-upload {
   flex: 1;
   display: flex;
   align-items: center;
@@ -41,33 +34,69 @@
   height: 200px;
 }
 
-.image-placeholder {
+.add-product-container .image-placeholder {
   color: #aaa;
   font-size: 1rem;
 }
 
 /* Form fields styling */
-.form-fields {
+.add-product-container .form-fields {
   flex: 2;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.form-fields label {
+.add-product-container .form-fields label {
   font-weight: bold;
   color: #333;
 }
 
-.form-fields input {
+.add-product-container .form-fields input {
   padding: 8px;
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
+.add-product-container select {
+  width: 100%;
+  max-width: 194px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select:focus {
+  border-color: #0056b3; /* Darker blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 91, 187, 0.5); /* Subtle shadow */
+  outline: none;
+}
+
+select option {
+  padding: 10px;
+  background-color: #fff; /* White background for options */
+  color: #333; /* Dark text for options */
+}
+
+select:hover {
+  border-color: #0056b3; /* Slight hover effect */
+}
+
+.add-product-container .form-fields textarea {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 150px;
+}
+
 /* Save button styling */
-.save-button {
+.add-product-container .save-button {
   background-color: green;
   color: white;
   padding: 10px 20px;
@@ -76,4 +105,122 @@
   cursor: pointer;
   font-size: 1rem;
   align-self: flex-start;
+
+  margin-top: 20px;
+}
+
+.add-product-container .image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.add-product-container .image-preview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Product form styling */
+.add-product-container .product-form {
+  padding: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Form content divided into two columns */
+.add-product-container .form-content {
+  display: flex;
+  gap: 40px;
+  width: 75%;
+}
+
+/* Left and Right columns */
+.add-product-container .form-left {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-product-container .form-right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Label styling */
+.add-product-container .product-form label {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input, textarea, and select styling */
+.add-product-container .product-form input,
+.add-product-container .product-form textarea,
+.add-product-container .product-form select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.add-product-container .product-form textarea {
+  height: 100px;
+}
+
+/* Custom file upload styling */
+.add-product-container .custom-file-upload {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.add-product-container .custom-file-upload img {
+  width: 28px;
+  height: auto;
+}
+
+/* Image preview styling */
+.add-product-container .image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.add-product-container .image-preview img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Save button styling */
+.add-product-container .save-button {
+  background-color: green;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  align-self: flex-start;
+  margin-top: 20px;
+}
+
+.add-product-container .sssff {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .add-product-container .form-content {
+    flex-direction: column;
+  }
 }

@@ -113,6 +113,12 @@ const ProdList = () => {
           />
           <button
             className="account-button"
+            onClick={() => navigate("/farmer-main")}
+          >
+            Main
+          </button>
+          <button
+            className="account-button"
             onClick={() => navigate("/farmer-account")}
           >
             My account
@@ -252,8 +258,6 @@ const ProdList = () => {
             </div>
           ))}
         </div>
-
-        <div className="chat-button">Chat</div>
       </div>
     </div>
   );
