@@ -42,7 +42,35 @@ const OrderDetails = () => {
 
   return (
     <div className="order-details-container">
-      <div className="header buyer">{/* Header content */}</div>
+      <div className="header buyer">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2548/2548670.png"
+          alt="Farm Icon"
+          className="main-logo"
+        />
+        <div className="right-section">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+            alt="Mail Icon"
+            className="mail-icon"
+          />
+          <button
+            className="account-button"
+            onClick={() => navigate("/buyer-account")}
+          >
+            My account
+          </button>
+          <button
+            className="account-button"
+            onClick={() => navigate("/buyer-main")}
+          >
+            Main
+          </button>
+          <button className="logout-button" onClick={handleLogout}>
+            Log out
+          </button>
+        </div>
+      </div>
       <div className="order-details-content">
         <h2>Order Details</h2>
         <div className="order-info">
@@ -81,6 +109,12 @@ const OrderDetails = () => {
                   <p>
                     <span>Quantity:</span> {item.quantity}{" "}
                     {item.Product.unit_of_measure}
+                  </p>
+                  <p>
+                    <span>Total Cost:</span> $
+                    {(
+                      parseFloat(item.quantity) * parseFloat(item.price)
+                    ).toFixed(2)}
                   </p>
                 </div>
               </li>
