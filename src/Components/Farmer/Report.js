@@ -93,7 +93,7 @@ const Report = () => {
         <div className="right-section">
           <button
             className="account-button"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/farmer-account")}
           >
             My Account
           </button>
